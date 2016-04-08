@@ -1,7 +1,9 @@
 == README
 
 COS375 Assignment - Battleship
+
 Deployed in: https://covenant-battleship.herokuapp.com/
+
 To deploy changes please contact obed.tandadjaja@covenant.edu
 
 ==== Installation - To run it on your local machine

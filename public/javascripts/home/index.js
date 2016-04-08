@@ -6,7 +6,18 @@ $(document).ready(function() {
 		swal("You clicked:", col+" : "+row, "success");
 	});
 
-	function sendFire(col, row) {
-		
+	function sendFire(col, row, game_id) {
+		$.ajax({
+		    url: '/advising_ajax_move/'+id,
+		    type: 'PUT',
+		    data: { date: e.target.id },
+		    dataType: "json",
+		    success: function (response) {
+		    	console.log(response);
+		    	
+		    }, error: function (response) {
+	    		alert("Something appears to be wrong");
+	    	}
+	    });
 	}
 });

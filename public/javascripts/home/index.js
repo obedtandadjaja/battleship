@@ -3,7 +3,11 @@ $(document).ready(function() {
 		var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
 		console.log(col);
 		var row = $(this).parent().attr('class');
-		swal("You clicked:", col+" : "+row, "success");
+		if(col == "empty-col") {
+			swal("Warning", "Please get your head back in the game", "error")
+		} else {
+			swal("You clicked:", col+" : "+row, "success");
+		}
 	});
 
 	function sendFire(col, row, game_id) {

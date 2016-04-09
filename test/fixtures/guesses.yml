@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_player_id: 
+  row: MyString
+  column: MyString
+  is_hit: false
+
+two:
+  game_player_id: 
+  row: MyString
+  column: MyString
+  is_hit: false

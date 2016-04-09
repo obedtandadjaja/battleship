@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  games_played: 1
+  high_score: 1
+  avg_score: 1.5
+  wins: 1
+  losses: 1
+  total_score: 1
+
+two:
+  games_played: 1
+  high_score: 1
+  avg_score: 1.5
+  wins: 1
+  losses: 1
+  total_score: 1

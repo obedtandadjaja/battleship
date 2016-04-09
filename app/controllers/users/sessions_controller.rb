@@ -13,14 +13,9 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   # DELETE /resource/sign_out
-  def destroy
-    if current_user
-      super
-    elsif guest_user
-      guest_user(with_retry = false).reload.try(:destroy)
-      session[:guest_user_id] = nil
-    end
-  end
+  # def destroy
+  #   super
+  # end
 
   # protected
 

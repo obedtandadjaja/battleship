@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
 	before_filter :check_authentication
-	helper_method :current_or_guest_user
 
 	def check_authentication
 		if !current_or_guest_user

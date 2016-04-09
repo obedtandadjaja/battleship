@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   put '/games/:game_id' => 'games#guess'
 
   post '/create_guest' => 'users#create_guest'
+  delete '/destroy_guest' => 'users#destroy_guest'
 
   resources :games
   resources :users

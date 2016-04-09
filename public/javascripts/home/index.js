@@ -6,6 +6,7 @@ $(document).ready(function() {
 		if(col == "empty-col") {
 			swal("Warning", "Please get your head back in the game", "error")
 		} else {
+			sendFire(col, row, 1);
 			swal("You clicked:", col+" : "+row, "success");
 		}
 	});

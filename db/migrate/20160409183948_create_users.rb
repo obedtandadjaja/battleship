@@ -1,6 +1,7 @@
 class CreateUsers < ActiveRecord::Migration
   def change
     create_table :users do |t|
+      t.string :name
       t.integer :games_played
       t.integer :high_score
       t.float :avg_score

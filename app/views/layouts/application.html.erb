@@ -27,15 +27,29 @@
 		</div>
 	  </nav>
 
-	<% if flash[:danger] %>
-		<div class="alert alert-danger">
+	<% if flash[:notice] %>
+		<div class="alert alert-warning">
 			<ul>
-			<% if flash[:danger].kind_of?(Array) %>
-				<% flash[:danger].each do |flash| %>
+			<% if flash[:notice].kind_of?(Array) %>
+				<% flash[:notice].each do |flash| %>
 					<%= content_tag :li, flash %>
 				<% end %>
 			<% else %>
-				<%= content_tag :li, flash[:danger] %>
+				<%= content_tag :li, flash[:notice] %>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+
+	<% if flash[:alert] %>
+		<div class="alert alert-danger">
+			<ul>
+			<% if flash[:alert].kind_of?(Array) %>
+				<% flash[:alert].each do |flash| %>
+					<%= content_tag :li, flash %>
+				<% end %>
+			<% else %>
+				<%= content_tag :li, flash[:alert] %>
 			<% end %>
 			</ul>
 		</div>

@@ -12,9 +12,9 @@ $(document).ready(function() {
 
 	function sendFire(col, row, game_id) {
 		$.ajax({
-		    url: '/advising_ajax_move/'+id,
+		    url: '/games/'+game_id,
 		    type: 'PUT',
-		    data: { date: e.target.id },
+		    data: { row: row, col: col},
 		    dataType: "json",
 		    success: function (response) {
 		    	console.log(response);

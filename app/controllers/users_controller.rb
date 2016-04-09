@@ -5,9 +5,4 @@ class UsersController < ApplicationController
 		redirect_to '/'
 	end
 
-	def guest_sign_out
-	    session[:user_id] = nil
-	    self.current_user = nil
-	end
-
 end

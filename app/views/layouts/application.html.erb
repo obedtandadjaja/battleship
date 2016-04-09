@@ -9,6 +9,43 @@
 	<link rel="stylesheet" type="text/css" href="http://tristanedwards.me/u/SweetAlert//lib/sweet-alert.css">
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+	<style>
+		.alert {
+		padding: 8px 35px 8px 14px;
+		margin-bottom: 18px;
+		color: #c09853;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+		background-color: #fcf8e3;
+		border: 1px solid #fbeed5;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		}
+
+		.alert-heading {
+		color: inherit;
+		}
+
+		.alert .close {
+		position: relative;
+		top: -2px;
+		right: -21px;
+		line-height: 18px;
+		}
+
+		.alert-danger,
+		.alert-error {
+		color: #b94a48;
+		background-color: #f2dede;
+		border-color: #eed3d7;
+		}
+
+		.alert-info {
+		color: #3a87ad;
+		background-color: #d9edf7;
+		border-color: #bce8f1;
+		}
+	</style>
 	<%= yield :css %>
 </head>
 <body>
@@ -22,21 +59,21 @@
 				</ul>
 				<ul class="right hide-on-med-and-down" style="margin-right: 15px">
 		            <% if current_user %>
-		            <li><%= link_to current_or_guest_user.name, controller: "users", action: "show", id: current_or_guest_user.id %></li>
+		            <li><%= link_to current_user.name, controller: "users", action: "show", id: current_user.id %></li>
 		            <li><%= link_to "Logout", '/users/sign_out', method: 'delete' %></li>
 		            <% elsif guest_user %>
 					<li><%= link_to 'Login', '/users/sign_in' %></li>
-                	<li><%= link_to 'Sign up', new_registration_path(resource_name) %></li>
+                	<li><%= link_to 'Sign up', '/users/sign_up' %></li>
 		            <% end %>
 		        </ul>
 		        <ul class="side-nav" id="mobile-demo">
 		            <li><%= link_to "Home", '/' %></li>
 		            <% if current_user %>
-		            <li><%= link_to "Profile", controller: "users", action: "show", id: current_or_guest_user.id %></li>
+		            <li><%= link_to current_user.name, controller: "users", action: "show", id: current_user.id %></li>
 		            <li><%= link_to "Logout", '/users/sign_out', method: 'delete' %></li>
 		            <% elsif guest_user %>
 					<li><%= link_to 'Login', '/users/sign_in' %></li>
-                	<li><%= link_to 'Sign up', new_registration_path(resource_name) %></li>
+                	<li><%= link_to 'Sign up', '/users/sign_up' %></li>
 		            <% end %>
 		        </ul>
 		  	</div>
@@ -44,7 +81,9 @@
 	  </nav>
 
 	<% if flash[:notice] %>
-		<div class="alert alert-warning">
+		<div class="alert alert-info">
+			<div class="container">
+			<a class="right" href="#"><i class="material-icons">done_all</i></a>
 			<ul>
 			<% if flash[:notice].kind_of?(Array) %>
 				<% flash[:notice].each do |flash| %>
@@ -54,11 +93,14 @@
 				<%= content_tag :li, flash[:notice] %>
 			<% end %>
 			</ul>
+			</div>
 		</div>
 	<% end %>
 
 	<% if flash[:alert] %>
 		<div class="alert alert-danger">
+			<div class="container">
+			<a class="right" href="#"><i class="material-icons">done_all</i></a>
 			<ul>
 			<% if flash[:alert].kind_of?(Array) %>
 				<% flash[:alert].each do |flash| %>
@@ -68,6 +110,7 @@
 				<%= content_tag :li, flash[:alert] %>
 			<% end %>
 			</ul>
+			</div>
 		</div>
 	<% end %>
 
@@ -124,6 +167,15 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 	<script src="http://tristanedwards.me/u/SweetAlert//lib/sweet-alert.js"></script>
+	<script>
+	$(document).ready(function(){
+	  $('select').material_select();
+	  $('.alert a').click(function()
+	  {
+	    $('.alert').remove();
+	  });
+	});
+	</script>
 	<%= yield :script %>
 
 </body>

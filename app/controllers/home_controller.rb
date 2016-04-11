@@ -4,12 +4,11 @@ class HomeController < ApplicationController
 	def check_authentication
 		if !(current_user || guest_user)
 			redirect_to '/users/sign_in'
-		elsif guest_user
-			flash[:notice] = "Signed in as a guest user"
 		end
 	end
 
 	def index
+		@games = Game.where(is_completed: false, is_playing: false)
 	end
 
 	def highscore

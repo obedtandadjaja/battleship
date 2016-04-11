@@ -13,8 +13,7 @@ class GamesController < ApplicationController
 		end
 	end
 
-	def index
-		@games = Game.where(is_completed: false)
+	def in_game_lobby
 	end
 
 	def show
@@ -26,13 +25,16 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		@game = Game.create(num_players: params[:game][:num_players])
+		@game = Game.create(num_players: params[:game][:num_players], name: params[:game][:name],
+			password: params[:game][:password])
 		if @game.save
-			redirect_to :action => :index
+			redirect_to '/'
 		else
-			flash[:notice] = "The form you submitted is invalid."
-			redirect_to '/games/new'
+			flash[:alert] = @game.errors.full_messages
+			redirect_to '/'
 		end
+	rescue ActiveRecord::StatementInvalid
+		flash[:notice] = @game.errors.full_messages
 	end
 
 	def destroy

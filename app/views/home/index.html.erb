@@ -1,8 +1,50 @@
 <div class="container">
 	<div class="row">
-		<div class="card">
-			<div class="card-content">
-				
+		<div class="col l6 m6 s12">
+			<div class="card">
+				<div class="card-content">
+					<h5>Game lobby</h5>
+					<div class="row">
+					<% if @games.length != 0 %>
+						<% @games.each do |game| %>
+						<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
+						<% end %>
+					<% else %>
+						<p class="grey-text">There is currently no game hosted</p>
+					<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col l6 m6 s12">
+			<div class="card">
+				<div class="card-content">
+					<h5>Create a lobby</h5>
+					<%= form_for(:game, url: '/games') do |f| %>
+					<div class="row">
+						<div class="input-field">
+							<%= f.text_field :name %>
+							<label for="name">Name</label>
+						</div>
+						<div class="input-field">
+							<%= f.text_field :password %>
+							<label for="password">Password (optional)</label>
+						</div>
+						<div class="input-field">
+							<%= f.number_field :num_players %>
+							<label for="num_players">Number of players</label>
+						</div>
+						<div class="input-field col s12">
+						    <select id="game_type" name="game[type]">
+						      	<option value="chaos">Chaos</option>
+						      	<option value="traditional">Traditional</option>
+						    </select>
+						    <label>Game type</label>
+					  	</div>
+						<%= f.submit "Create game", class: "btn blue-grey col s12" %>
+					</div>
+					<% end %>
+				</div>
 			</div>
 		</div>
 	</div>

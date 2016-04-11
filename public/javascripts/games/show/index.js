@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	setUpSocketConnection();
+
 	$('td').click(function() {
 		var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
 		console.log(col);
@@ -11,6 +13,22 @@ $(document).ready(function() {
 			swal("You clicked:", col+" : "+row, "success");
 		}
 	});
+
+	function setUpSocketConnection() {
+		// connect to server like normal
+		var dispatcher = new WebSocketRails('localhost:3000/websocket');
+
+		// subscribe to the channel
+		var channel = dispatcher.subscribe($('.channel-name').text());
+
+		// You can also pass an object to the subscription event
+		// var channel = dispatcher.subscribe({channel: 'channel_name', foo: 'bar'});
+
+		// bind to a channel event
+		channel.bind('update_board', function(data) {
+		  	console.log('channel event received: ' + data);
+		});
+	}
 
 	function sendFire(col, row, game_id) {
 		$.ajax({
@@ -26,9 +44,5 @@ $(document).ready(function() {
 	    	}
 	    });
 	}
-
-	dispatcher.bind('update_board', function(data) {
-	  	console.log(data);
-	});
 
 });

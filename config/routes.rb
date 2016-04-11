@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   #ajax route for hit
-  put '/games/:game_id' => 'games#guess'
+  put '/games/:game_id' => 'play#guess'
 
   post '/create_guest' => 'users#create_guest'
   delete '/destroy_guest' => 'users#destroy_guest'

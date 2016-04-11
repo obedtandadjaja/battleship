@@ -1,17 +1,6 @@
 class GamesController < ApplicationController
-	skip_before_filter :verify_authenticity_token, :only => [:guess]
-
-	def guess
-		@user = current_user
-		@game = Game.find(params[:game_id])
-		if @user.game.include? @game
-			
-		else
-			respond_to do |format|
-				format.json { render json: @user }
-			end
-		end
-	end
+skip_before_filter :verify_authenticity_token, :only => [:guess]
+require 'securerandom'
 
 	def in_game_lobby
 	end
@@ -25,8 +14,9 @@ class GamesController < ApplicationController
 	end
 
 	def create
+		random_string = SecureRandom.base_64
 		@game = Game.create(num_players: params[:game][:num_players], name: params[:game][:name],
-			password: params[:game][:password])
+			password: params[:game][:password], type: params[:game][:type], channel: params[:game][:channel])
 		if @game.save
 			redirect_to '/'
 		else

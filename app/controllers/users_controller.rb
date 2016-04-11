@@ -5,4 +5,9 @@ class UsersController < ApplicationController
 		redirect_to '/'
 	end
 
+	def destroy_guest
+		session[:guest_user_id] = nil
+		redirect_to '/'
+	end
+
 end

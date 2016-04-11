@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# WebSockets
+gem 'websocket-rails'
 # Devise
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

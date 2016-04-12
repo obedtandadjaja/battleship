@@ -2,7 +2,33 @@
 	<div class="row">
 		<div class="card">
 			<div class="card-content">
-				<h5></h5>
+				<div class="row">
+					<div class="col s12">
+						<h5><%= @game.name %> Game Lobby</h5>
+						<br>
+					</div>
+					<div class="col l6 m6 s12">
+						<p>Game Attributes</p>
+						<hr/>
+						<p class="grey-text"><b>Type:</b> <%= @game.type %></p>
+						<p class="grey-text"><b>Password:</b> <%= @game.password == "" ? "None" : @game.password %></p>
+						<p class="grey-text"><b>Number of players:</b> <%= @game.num_players %></p>
+					</div>
+					<div class="col l6 m6 s12">
+						<p>Players in this lobby</p>
+						<hr>
+						<ul class="grey-text">
+						<% @game.user.each do |user| %>
+						<li><%= user.name %></li>
+						<% end %>
+						</ul>
+					</div>
+					<div class="col s12 center">
+						<button class="btn blue-grey"><a href="/" class="white-text">Leave this lobby</a></button>
+						<button class="btn blue-grey <%= @game.user.count != @game.num_players ? "disabled" : "" %>
+						"><a href="/" class="white-text">Play game</a></button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

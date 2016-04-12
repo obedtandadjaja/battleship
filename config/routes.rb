@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post '/create_guest' => 'users#create_guest'
   delete '/destroy_guest' => 'users#destroy_guest'
 
+  get '/games/in_game_lobby/:id' => 'games#in_game_lobby'
+
   resources :games
   resources :users
 

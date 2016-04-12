@@ -3,6 +3,7 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 require 'securerandom'
 
 	def in_game_lobby
+		@game = Game.find(params[:id])
 	end
 
 	def show
@@ -18,7 +19,7 @@ require 'securerandom'
 		@game = Game.create(num_players: params[:game][:num_players], name: params[:game][:name],
 			password: params[:game][:password], type: params[:game][:type], channel: params[:game][:channel])
 		if @game.save
-			redirect_to '/'
+			redirect_to "/games/in_game_lobby/#{@game.id}"
 		else
 			flash[:alert] = @game.errors.full_messages
 			redirect_to '/'

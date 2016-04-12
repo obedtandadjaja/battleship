@@ -7,7 +7,9 @@
 					<div class="row">
 					<% if @games.length != 0 %>
 						<% @games.each do |game| %>
+						<a href="/games/in_game_lobby/<%= game.id %>">
 						<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
+						</a>
 						<% end %>
 					<% else %>
 						<p class="grey-text">There is currently no game hosted</p>

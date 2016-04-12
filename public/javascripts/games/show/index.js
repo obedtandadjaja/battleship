@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	setUpSocketConnection();
+	// setUpSocketConnection();
 
 	$('td').click(function() {
 		var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');

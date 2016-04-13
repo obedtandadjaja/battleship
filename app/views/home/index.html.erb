@@ -5,15 +5,7 @@
 				<div class="card-content">
 					<h5>Game lobby</h5>
 					<div class="row">
-					<% if @games.length != 0 %>
-						<% @games.each do |game| %>
-						<a href="/games/in_game_lobby/<%= game.id %>">
-						<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
-						</a>
-						<% end %>
-					<% else %>
-						<p class="grey-text">There is currently no game hosted</p>
-					<% end %>
+						<%= render "lobby_games", collection: @games %>
 					</div>
 				</div>
 			</div>
@@ -51,3 +43,11 @@
 		</div>
 	</div>
 </div>
+
+<%= content_for :script do %>
+<script>
+	$(document).ready(function() {
+		$('.modal-trigger').leanModal();
+	});
+</script>
+<% end %>

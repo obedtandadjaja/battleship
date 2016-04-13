@@ -1,0 +1,35 @@
+<% if @games.length != 0 %>
+	<% @games.each do |game| %>
+		<% if game.password != "" %>
+		<a href="#modal_<%= game.id %>" class="modal-trigger">
+		<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
+		</a>
+		<!-- Modal -->
+		<div id="modal_<%= game.id %>" class="modal">
+		    <div class="modal-content">
+		      	<div class="row">
+		      		<h5 class="center"><%= game.name %> is password protected</h5>
+		      		<%= form_for(:game, url: "/games/authorize/#{game.id}") do |f| %>
+		      		<div class="col l8 m8 s12">
+			      		<div class="input-field">
+			      			<%= f.password_field :password %>
+			      			<label for="password">Password</label>
+			      		</div>
+		      		</div>
+		      		<%= f.submit "Enter lobby", class: "btn blue-grey col l4 m4 s12", style: "margin-top: 20px" %>
+		      		<% end %>
+		      	</div>
+		    </div>
+		    <div class="modal-footer">
+		      	<a href="#!" class=" modal-action modal-close btn-flat">Close</a>
+		    </div>
+		</div>
+		<% else %>
+			<a href="/games/in_game_lobby/<%= game.id %>">
+			<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
+			</a>
+		<% end %>
+	<% end %>
+<% else %>
+	<p class="grey-text">There is currently no game hosted</p>
+<% end %>

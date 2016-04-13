@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :wins
       t.integer :losses
       t.integer :total_score
+      t.string :slug
 
       t.timestamps null: false
     end

@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# Friendly-ID
+gem 'friendly_id', '~> 5.1.0'
 # WebSockets
 gem 'websocket-rails'
 # Devise

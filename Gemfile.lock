@@ -67,6 +67,8 @@ GEM
     faye-websocket (0.10.3)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hiredis (0.6.1)
@@ -186,6 +188,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   devise
+  friendly_id (~> 5.1.0)
   jbuilder (~> 2.0)
   jquery-rails
   pg (~> 0.15)

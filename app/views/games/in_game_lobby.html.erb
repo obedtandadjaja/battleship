@@ -17,14 +17,10 @@
 					<div class="col l6 m6 s12">
 						<p>Players in this lobby</p>
 						<hr>
-						<ul class="grey-text">
-						<% @game.user.each do |user| %>
-						<li><%= user.name %></li>
-						<% end %>
-						</ul>
+						<%= render "games/in_game_lobby_players", collection: @game.user %>
 					</div>
 					<div class="col s12 center">
-						<button class="btn blue-grey"><a href="/" class="white-text">Leave this lobby</a></button>
+						<button class="btn blue-grey" onclick="location.href='/';">Leave this lobby</button>
 						<button class="btn blue-grey <%= @game.user.count != @game.num_players ? "disabled" : "" %>
 						"><a href="/" class="white-text">Play game</a></button>
 					</div>

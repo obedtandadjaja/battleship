@@ -5,7 +5,20 @@
 				<div class="card-content">
 					<h5>Game lobby</h5>
 					<div class="row">
-						<%= render "lobby_games", collection: @games %>
+						<div class="col s12">
+							<div class="col s12">
+								<h6>Chaos Games</h6>
+								<div class="chaos_games">
+								<%= render "lobby_games", :games => @chaos_games %>
+								</div>
+							</div>
+							<div class="col s12">
+								<h6>Traditional Games</h6>
+								<div class="traditional_games">
+								<%= render "lobby_games", :games => @traditional_games %>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

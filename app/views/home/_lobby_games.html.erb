@@ -1,5 +1,5 @@
-<% if @games.length != 0 %>
-	<% @games.each do |game| %>
+<% if games.length != 0 %>
+	<% games.each do |game| %>
 		<% if game.password != "" %>
 		<a href="#modal_<%= game.id %>" class="modal-trigger">
 		<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>

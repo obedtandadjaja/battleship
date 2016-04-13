@@ -8,7 +8,8 @@ class HomeController < ApplicationController
 	end
 
 	def index
-		@games = Game.where(is_completed: false, is_playing: false)
+		@chaos_games = Chaos.where(is_completed: false, is_playing: false)
+		@traditional_games = Traditional.where(is_completed: false, is_playing: false)
 	end
 
 	def highscore

@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20160413033053) do
     t.boolean  "is_playing",   default: false
     t.integer  "num_players",                    null: false
     t.string   "type",         default: "Chaos", null: false
+    t.string   "random"
+    t.string   "slug"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end

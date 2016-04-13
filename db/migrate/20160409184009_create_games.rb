@@ -8,6 +8,8 @@ class CreateGames < ActiveRecord::Migration
       t.boolean :is_playing, default: false
       t.integer :num_players, null: false
       t.string :type, null: false, default: "Chaos"
+      t.string :random
+      t.string :slug
 
       t.timestamps null: false
     end

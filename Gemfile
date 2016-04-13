@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# warden
+gem 'warden'
+# Devise traceable
+gem 'devise_traceable'
 # WebSockets
 gem 'websocket-rails'
 # Devise

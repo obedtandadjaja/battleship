@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   delete '/destroy_guest' => 'users#destroy_guest'
 
   get '/games/in_game_lobby/:id' => 'games#in_game_lobby'
+  post '/games/authorize/:id' => 'games#authorize'
 
   resources :games
   resources :users

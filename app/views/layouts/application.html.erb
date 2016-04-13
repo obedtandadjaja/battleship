@@ -59,10 +59,10 @@
 				</ul>
 				<ul class="right hide-on-med-and-down" style="margin-right: 15px">
 		            <% if current_user %>
-		            <li><%= link_to current_user.name, controller: "/users", action: "show", id: current_user.id %></li>
+		            <li><%= link_to current_user.name, controller: "/users", action: "show", id: current_user.slug %></li>
 		            <li><%= link_to "Logout", '/users/sign_out', method: 'delete' %></li>
 		            <% elsif guest_user %>
-		            <li><%= link_to guest_user.name, controller: "/users", action: "show", id: guest_user.id %></li>
+		            <li><%= guest_user.name %></li>
 					<li><%= link_to 'Login', '/users/sign_in' %></li>
                 	<li><%= link_to 'Sign up', '/users/sign_up' %></li>
                 	<li><%= link_to "Logout from guest user", '/destroy_guest', method: 'delete' %></li>
@@ -71,7 +71,7 @@
 		        <ul class="side-nav" id="mobile-demo">
 		            <li><%= link_to "Home", '/' %></li>
 		            <% if current_user %>
-		            <li><%= link_to current_user.name, controller: "/users", action: "show", id: current_user.id %></li>
+		            <li><%= link_to current_user.name, controller: "/users", action: "show", id: current_user.slug %></li>
 		            <li><%= link_to "Logout", '/users/sign_out', method: 'delete' %></li>
 		            <% elsif guest_user %>
 		            <li><%= guest_user.name %></li>

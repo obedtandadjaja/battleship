@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413030621) do
+ActiveRecord::Schema.define(version: 20160409184452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,14 +70,6 @@ ActiveRecord::Schema.define(version: 20160413030621) do
   end
 
   add_index "ships", ["game_player_id"], name: "index_ships_on_game_player_id", using: :btree
-
-  create_table "user_tracings", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "sign_in_at"
-    t.datetime "sign_out_at"
-  end
-
-  add_index "user_tracings", ["user_id"], name: "index_user_tracings_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

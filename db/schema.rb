@@ -29,13 +29,15 @@ ActiveRecord::Schema.define(version: 20160409184452) do
   add_index "game_players", ["user_id"], name: "index_game_players_on_user_id", using: :btree
 
   create_table "games", force: :cascade do |t|
-    t.string   "name",                         null: false
+    t.string   "name",                           null: false
     t.string   "password"
+    t.string   "channel",                        null: false
     t.boolean  "is_completed", default: false
     t.boolean  "is_playing",   default: false
-    t.integer  "num_players",                  null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "num_players",                    null: false
+    t.string   "type",         default: "Chaos", null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "guesses", force: :cascade do |t|

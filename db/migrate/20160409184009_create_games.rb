@@ -7,7 +7,7 @@ class CreateGames < ActiveRecord::Migration
       t.boolean :is_completed, default: false
       t.boolean :is_playing, default: false
       t.integer :num_players, null: false
-      t.integer :type, default: 0
+      t.string :type, null: false, default: "Chaos"
 
       t.timestamps null: false
     end

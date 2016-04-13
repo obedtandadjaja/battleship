@@ -1,6 +1,5 @@
 class Game < ActiveRecord::Base
 
-	enum type: [:chaos, :traditional]
 	validates :name, presence: true
 	validates :type, presence: true
 	validates :num_players, numericality: {greater_than_or_equal_to: 1}
@@ -10,4 +9,10 @@ class Game < ActiveRecord::Base
 	has_many :game_player, dependent: :destroy
 	has_many :user, through: :game_player
 
+end
+
+class Chaos < Game
+end
+
+class Traditional < Game
 end

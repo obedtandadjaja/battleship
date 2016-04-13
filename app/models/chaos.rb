@@ -1,0 +1,2 @@
+class Chaos < Game
+end

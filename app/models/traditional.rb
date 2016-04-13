@@ -1,0 +1,2 @@
+class Traditional < Game
+end

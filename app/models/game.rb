@@ -10,9 +10,3 @@ class Game < ActiveRecord::Base
 	has_many :user, through: :game_player
 
 end
-
-class Chaos < Game
-end
-
-class Traditional < Game
-end

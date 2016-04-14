@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# Faker
+gem 'faker'
 # Friendly-ID
 gem 'friendly_id', '~> 5.1.0'
 # WebSockets

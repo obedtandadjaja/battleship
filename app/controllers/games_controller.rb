@@ -3,6 +3,10 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 
 	def in_game_lobby
 		@game = Game.friendly.find(params[:id])
+		if @game.user.count == @game.num_players
+			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
+			redirect_to '/'
+		end
 	end
 
 	def show
@@ -10,7 +14,20 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		if @game.is_playing
 			flash[:alert] = "Sorry, #{game.name} is no longer available. The game has started."
 			redirect_to '/'
+		elsif @game.user.count == @game.num_players
+			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
+			redirect_to '/'
 		end
+	end
+
+	def get_chaos_games
+		@chaos_games = Chaos.where(is_completed: false, is_playing: false)
+		render partial: "home/lobby_games", :locals => {:games => @chaos_games}
+	end
+
+	def get_traditional_games
+		@traditional_games = Traditional.where(is_completed: false, is_playing: false)
+		render partial: "home/lobby_games", :locals => {:games => @traditional_games}
 	end
 
 	def new

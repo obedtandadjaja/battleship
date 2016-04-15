@@ -58,9 +58,5 @@
 </div>
 
 <%= content_for :script do %>
-<script>
-	$(document).ready(function() {
-		$('.modal-trigger').leanModal();
-	});
-</script>
+	<%= javascript_include_tag "home/index" %>
 <% end %>

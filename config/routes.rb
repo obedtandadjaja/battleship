@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get '/games/in_game_lobby/:id' => 'games#in_game_lobby'
   post '/games/authorize/:id' => 'games#authorize'
 
+  get '/get_chaos_games' => 'games#get_chaos_games'
+  get '/get_traditional_games' => 'games#get_traditional_games'
+
   resources :games
   resources :users
 

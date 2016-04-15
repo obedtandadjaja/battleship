@@ -30,6 +30,11 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		render partial: "home/lobby_games", :locals => {:games => @traditional_games}
 	end
 
+	def get_in_game_lobby_players
+		@game = Game.friendly.find(params[:id])
+		render partial: "games/in_game_lobby_players", :locals => {:players => @game.user}
+	end
+
 	def new
 		@game = Game.new
 	end

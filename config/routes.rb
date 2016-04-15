@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get '/get_chaos_games' => 'games#get_chaos_games'
   get '/get_traditional_games' => 'games#get_traditional_games'
+  get '/get_in_game_lobby_players/:id' => 'games#get_in_game_lobby_players'
 
   resources :games
   resources :users

@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	$('.modal-trigger').leanModal();
+
     setInterval(function() {
         reloadGames();
     }, 500);

@@ -63,7 +63,9 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		@game = Game.create(num_players: params[:game][:num_players], name: params[:game][:name],
 			password: params[:game][:password], type: params[:game][:type], channel: random_string,
 			random: random_string2)
+		@user = current_or_guest_user
 		if @game.save
+			GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: true).save
 			redirect_to "/games/in_game_lobby/#{@game.slug}"
 		else
 			flash[:alert] = @game.errors.full_messages

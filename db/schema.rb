@@ -32,10 +32,11 @@ ActiveRecord::Schema.define(version: 20160413033053) do
   create_table "game_players", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "game_id"
+    t.boolean  "is_master",  default: false
     t.integer  "score"
-    t.boolean  "ships_left"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "ships_left", default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "game_players", ["game_id"], name: "index_game_players_on_game_id", using: :btree

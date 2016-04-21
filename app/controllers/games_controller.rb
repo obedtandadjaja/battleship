@@ -9,10 +9,10 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 			redirect_to '/'
 		else
 			# If this player is not already in the game. This is in case they are already added as master.
-			unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
-				# Add the player to the game
-				GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
-			end
+			# unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
+			# 	# Add the player to the game
+			# 	GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
+			# end
 		end
 	end
 

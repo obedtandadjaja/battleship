@@ -4,6 +4,15 @@ class LobbySocketController < WebsocketRails::BaseController
 		# Get channel and game from client
 		channel = ActiveSupport::JSON.decode(message)["channel"]
 		game_id = ActiveSupport::JSON.decode(message)["game_id"]
+		user = current_or_guest_user
+		puts "Setup called"
+
+		unless GamePlayer.where(user_id: user.id, game_id: game_id).first
+			# Add the player to the game
+			GamePlayer.create(user_id: user.id, game_id: game_id, score: 0, is_master: false).save
+		end
+
+		puts "Setup complete"
 
 		# Get all players in this game
 		players = GamePlayer.where(game_id: game_id)

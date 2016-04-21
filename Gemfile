@@ -6,7 +6,7 @@ gem 'faker'
 gem 'friendly_id', '~> 5.1.0'
 # WebSockets
 gem 'websocket-rails'
-gem 'faye-websocket', '0.10.0'
+gem 'faye-websocket'
 # Devise
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

@@ -44,15 +44,22 @@ class LobbySocketController < WebsocketRails::BaseController
 		# Get all players left in the game
 		players = GamePlayer.where(game_id: game.id)
 
-		# Add them to an array
-		player_array = []
-		players.each do |player|
-			player_array.append player.user.name
+		if players
+			# Add them to an array
+			player_array = []
+			players.each do |player|
+				player_array.append player.user.name
+			end
+
+			# Broadcast list of players to everyone in the lobby
+			WebsocketRails[channel].trigger(:update, player_array)
+		else
+			# If there is no player then delete the game
+			game.destroy
+
+			# Broadcast that there is an update on the game index
+			WebsocketRails["gameindex"].trigger(:update)
 		end
-
-		# Broadcast list of players to everyone in the lobby
-		WebsocketRails[channel].trigger(:update, player_array)
 	end
-
 
 end

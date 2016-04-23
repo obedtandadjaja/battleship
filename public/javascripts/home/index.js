@@ -2,9 +2,7 @@ $(document).ready(function() {
 
 	$('.modal-trigger').leanModal();
 
- //    setInterval(function() {
- //        reloadGames();
- //    }, 500);
+	setTimeout(function(){ reloadGames(); }, 500);
 
 	function reloadGames() {
 		$('.chaos_games').load('/get_chaos_games');

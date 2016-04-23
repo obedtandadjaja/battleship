@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :losses
       t.integer :total_score
       t.string :slug
+      t.integer :current_channel, default: 0
 
       t.timestamps null: false
     end

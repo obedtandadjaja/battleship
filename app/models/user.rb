@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
 
+  enum current_channel: [:gameindex, :gamelobby, :ingame]
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 

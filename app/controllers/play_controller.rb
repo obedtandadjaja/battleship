@@ -5,6 +5,11 @@ class PlayController < WebsocketRails::BaseController
     	controller_store[:message_count] = 0
   	end
 
+  	def play_game
+  		user = current_or_guest_user
+  		user.update_attributes(current_channel: :ingame)
+  	end
+
   	def guess
 		@user = current_user || guest_user
 		@game = Game.find(params[:game_id])

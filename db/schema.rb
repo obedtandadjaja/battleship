@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20160413033053) do
     t.integer  "losses"
     t.integer  "total_score"
     t.string   "slug"
+    t.integer  "current_channel",        default: 0
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "email",                  default: "", null: false

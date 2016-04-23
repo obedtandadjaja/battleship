@@ -1,38 +1,28 @@
 class GamesController < ApplicationController
-before_filter :check_authentication
+skip_before_filter :verify_authenticity_token, :only => [:guess]
 
 	def in_game_lobby
-		@game = Game.friendly.find_by_slug(params[:id])
-		if @game
-			@user = current_or_guest_user
-			if @game.user.count == @game.num_players
-				flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
-				redirect_to '/'
-			else
-				# If this player is not already in the game. This is in case they are already added as master.
-				# unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
-				# 	# Add the player to the game
-				# 	GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
-				# end
-			end
-		else
-			flash[:alert] = "Unregistered URL"
+		@game = Game.friendly.find(params[:id])
+		@user = current_or_guest_user
+		if @game.user.count == @game.num_players
+			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
 			redirect_to '/'
+		else
+			# If this player is not already in the game. This is in case they are already added as master.
+			# unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
+			# 	# Add the player to the game
+			# 	GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
+			# end
 		end
 	end
 
 	def show
-		@game = Game.friendly.find_by_slug(params[:id])
-		if @game
-			if @game.is_playing
-				flash[:alert] = "Sorry, #{game.name} is no longer available. The game has started."
-				redirect_to '/'
-			elsif @game.user.count == @game.num_players
-				flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
-				redirect_to '/'
-			end
-		else
-			flash[:alert] = "Unregistered URL"
+		@game = Game.friendly.find(params[:id])
+		if @game.is_playing
+			flash[:alert] = "Sorry, #{game.name} is no longer available. The game has started."
+			redirect_to '/'
+		elsif @game.user.count == @game.num_players
+			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
 			redirect_to '/'
 		end
 	end
@@ -47,15 +37,14 @@ before_filter :check_authentication
 		render partial: "home/lobby_games", :locals => {:games => @traditional_games}
 	end
 
-	# Unused because we are using Websockets now, but keept it just in case
 	def get_in_game_lobby_players
-		@game = Game.friendly.find_by_slug(params[:id])
+		@game = Game.friendly.find(params[:id])
 		render partial: "games/in_game_lobby_players", :locals => {:players => @game.user}
 	end
 
 	def invite
 		@user = current_or_guest_user
-		@game = Game.friendly.find_by_slug(params[:id])
+		@game = Game.friendly.find(params[:id])
 		GameMailer.invite_game(params[:email], @user, @game).deliver
 		redirect_to :back
 	end
@@ -65,7 +54,7 @@ before_filter :check_authentication
 	end
 
 	def authorize
-		@game = Game.friendly.find_by_slug(params[:id])
+		@game = Game.friendly.find(params[:id])
 		if params[:game][:password] == @game.password
 			redirect_to :action => 'in_game_lobby', :id => @game.slug
 		else
@@ -93,24 +82,16 @@ before_filter :check_authentication
 	end
 
 	def destroy
-		if Game.friendly.find_by_slug(params[:id]).destroy
-      		redirect_to '/games'
-      	else
-      		flash[:alert] = "Delete failed! Incorrect game id"
-			redirect_to '/'
-      	end
+		Game.friendly.find(params[:id]).destroy
+      	redirect_to '/games'
 	end
 
 	def edit
-		@game = Game.friendly.find_by_slug(params[:id])
-		if !@game
-			flash[:alert] = "Unregistered URL"
-			redirect_to '/'
-		end
+		@game = Game.friendly.find(params[:id])
 	end
 
 	def update
-		@game = Game.friendly.find_by_slug(params[:id])
+		@game = Game.friendly.find(params[:id])
 	    if @game.update_attributes(num_players: params[:game][:num_players])
 	      	redirect_to :action => 'show', :id => @game.slug
 	  	else

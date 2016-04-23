@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 	var sub_channel = dispatcher.subscribe(channel);
 	sub_channel.bind('update', function(response) {
-		reloadGames();
+		setTimeout(function(){ reloadGames(); }, 500);
 	});
 
 });

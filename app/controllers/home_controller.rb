@@ -1,11 +1,5 @@
 class HomeController < ApplicationController
-	before_filter :check_authentication
-
-	def check_authentication
-		if !(current_user || guest_user)
-			redirect_to '/users/sign_in'
-		end
-	end
+before_filter :check_authentication
 
 	def index
 		@chaos_games = Chaos.where(is_completed: false, is_playing: false)

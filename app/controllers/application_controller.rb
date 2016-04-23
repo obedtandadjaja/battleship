@@ -30,6 +30,12 @@ class ApplicationController < ActionController::Base
      # guest_user if with_retry
   end
 
+  def check_authentication
+    if !(current_user || guest_user)
+      redirect_to '/users/sign_in'
+    end
+  end
+
   private
 
   # called (once) when the user logs in, insert any code your application needs

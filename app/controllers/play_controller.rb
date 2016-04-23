@@ -1,8 +1,20 @@
 class PlayController < WebsocketRails::BaseController
-  	
+before_filter :check_authentication
+
   	def initialize_session
     	# perform application setup here
     	controller_store[:message_count] = 0
+  	end
+
+  	def get_game
+  		# Get channel and game from client
+		channel = ActiveSupport::JSON.decode(message)["channel"]
+		game_id = ActiveSupport::JSON.decode(message)["game_id"]
+
+		puts "Redirect users to game"
+
+		# Broadcast list of players to everyone in the lobby
+		WebsocketRails[channel].trigger(:redirect_to_game, )
   	end
 
   	def guess

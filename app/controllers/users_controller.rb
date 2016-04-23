@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+before_filter :check_authentication, except: [:create_guest]
 
 	def create_guest
 		create_guest_user

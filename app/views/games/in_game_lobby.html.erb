@@ -51,8 +51,8 @@
 						      	<a href="#!" class=" modal-action modal-close btn-flat">Close</a>
 						    </div>
 						</div>
-						<button <%= @game.user.count != @game.num_players ? "disabled" : "" %> id="play-button" class="btn blue-grey <%= @game.user.count != @game.num_players ? "disabled" : "" %>
-						"><a href="/" class="white-text">Play game</a></button>
+						<button <%= @game.user.count != @game.num_players ? "disabled" : "" %> id="play-button" class="btn blue-grey white-text <%= @game.user.count != @game.num_players ? "disabled" : "" %>
+						">Play game</button>
 					</div>
 				</div>
 			</div>

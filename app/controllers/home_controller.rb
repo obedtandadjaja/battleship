@@ -8,10 +8,10 @@ class HomeController < ApplicationController
 	end
 
 	def index
-		@chaos_games = Chaos.where(is_completed: false, is_playing: false)
-		@traditional_games = Traditional.where(is_completed: false, is_playing: false)
 		user = current_or_guest_user
 		user.update_attributes(current_channel: :gameindex)
+		@chaos_games = Chaos.where(is_completed: false, is_playing: false)
+		@traditional_games = Traditional.where(is_completed: false, is_playing: false)
 	end
 
 	def highscore

@@ -4,27 +4,22 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 	def in_game_lobby
 		@game = Game.friendly.find(params[:id])
 		@user = current_or_guest_user
-		if @game.user.count == @game.num_players
-			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
-			redirect_to '/'
-		else
-			# If this player is not already in the game. This is in case they are already added as master.
-			# unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
-			# 	# Add the player to the game
-			# 	GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
-			# end
+		if !@game.user.include? @user
+			if @game.user.count == @game.num_players
+				flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
+				redirect_to '/'
+			else
+				# If this player is not already in the game. This is in case they are already added as master.
+				unless GamePlayer.where(user_id: @user.id, game_id: @game.id).first
+					# Add the player to the game
+					GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: false).save
+				end
+			end
 		end
 	end
 
 	def show
 		@game = Game.friendly.find(params[:id])
-		if @game.is_playing
-			flash[:alert] = "Sorry, #{game.name} is no longer available. The game has started."
-			redirect_to '/'
-		elsif @game.user.count == @game.num_players
-			flash[:alert] = "Sorry, unfortunately #{@game.name} is full."
-			redirect_to '/'
-		end
 	end
 
 	def get_chaos_games

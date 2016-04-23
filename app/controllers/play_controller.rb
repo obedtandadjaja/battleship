@@ -5,9 +5,16 @@ class PlayController < WebsocketRails::BaseController
     	controller_store[:message_count] = 0
   	end
 
-  	def play_game
-  		user = current_or_guest_user
-  		user.update_attributes(current_channel: :ingame)
+  	def start_game
+  		channel = ActiveSupport::JSON.decode(message)["channel"]
+		game_id = ActiveSupport::JSON.decode(message)["game_id"]
+		puts "Start game"
+
+		@game = Game.find(game_id)
+		@game.update_attributes(is_playing: true)
+
+		# Send redirect broadcast
+  		WebsocketRails[channel].trigger("playgame_#{game_id}", @game.slug)
   	end
 
   	def guess

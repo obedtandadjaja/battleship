@@ -71,6 +71,7 @@ $(document).ready(function() {
 	});
 
 	sub_channel.bind('gameover', function(response) {
+		$('.score').text(response);
 		$('#game_over').openModal();
 	});
 

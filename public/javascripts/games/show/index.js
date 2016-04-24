@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	// setUpSocketConnection();
 
 	var root_url = $("#root-url").val();
 	var channel = $("#game-channel").val();
@@ -11,7 +12,18 @@ $(document).ready(function() {
 	var click_disabled = false;
 	var shot_time = 2000;
 
-	$('td').click(function(e) {
+	for($i = 1; $i < 11; $i++) {
+		var string = "<tr>";
+		string += "<td><b>"+$i+"</b></td>";
+		for($x = 1; $x < 11; $x++) {
+			var row = String.fromCharCode(64+$x)
+			string += "<td id="+row+$i+">cell</td>";
+		}
+		string += "</tr>";
+		$('tbody').append(string);
+	}
+
+	$('td').click(function() {
 		if (!click_disabled)
 		{
 			var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
@@ -59,7 +71,7 @@ $(document).ready(function() {
 
 	// Progress Bar
 	function move(callback) {
-	    var elem = $("#progress-bar"); 
+	    var elem = $("#progress-bar");
 	    var width = 1;
 	    var id = setInterval(frame, 10);
 	    $("#label").html("Reloading...");
@@ -69,7 +81,7 @@ $(document).ready(function() {
 	            $("#label").html("Fire!")
 	            callback();
 	        } else {
-	            width++; 
+	            width++;
 	            elem.width(width + '%');
 	        }
 	    }

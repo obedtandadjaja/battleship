@@ -4,16 +4,26 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	    width: 70%;
-	    height: 16px;
-	    background-color: grey;
+	    height: 24px;
+	    background-color: #333;
 	    overflow: hidden;
-	    border-radius: 8px;
+	    border-radius: 12px;
+	    border: 4px solid #333;
 	}
 	#progress-bar {
 	    position: absolute;
 	    width: 100%;
 	    height: 100%;
-	    background-color: #aa0000;
+
+		/* Gradient */
+	    background: rgba(221,97,75,1);
+		background: -moz-linear-gradient(top, rgba(221,97,75,1) 0%, rgba(220,126,111,1) 40%, rgba(215,65,45,1) 68%, rgba(211,73,54,1) 82%, rgba(205,77,66,1) 100%);
+		background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(221,97,75,1)), color-stop(40%, rgba(220,126,111,1)), color-stop(68%, rgba(215,65,45,1)), color-stop(82%, rgba(211,73,54,1)), color-stop(100%, rgba(205,77,66,1)));
+		background: -webkit-linear-gradient(top, rgba(221,97,75,1) 0%, rgba(220,126,111,1) 40%, rgba(215,65,45,1) 68%, rgba(211,73,54,1) 82%, rgba(205,77,66,1) 100%);
+		background: -o-linear-gradient(top, rgba(221,97,75,1) 0%, rgba(220,126,111,1) 40%, rgba(215,65,45,1) 68%, rgba(211,73,54,1) 82%, rgba(205,77,66,1) 100%);
+		background: -ms-linear-gradient(top, rgba(221,97,75,1) 0%, rgba(220,126,111,1) 40%, rgba(215,65,45,1) 68%, rgba(211,73,54,1) 82%, rgba(205,77,66,1) 100%);
+		background: linear-gradient(to bottom, rgba(221,97,75,1) 0%, rgba(220,126,111,1) 40%, rgba(215,65,45,1) 68%, rgba(211,73,54,1) 82%, rgba(205,77,66,1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dd614b', endColorstr='#cd4d42', GradientType=0 );
 	}
 
 	#label {
@@ -22,7 +32,52 @@
 	    color: white;
 	    margin-left: 10px;
 	}
+
+	/* Silas */
+
+	body {
+	  margin: 0px; }
+
+	table.board {
+	  display: flex;
+	  align-content: center;
+	  justify-content: center;
+	  border: none; }
+	  table.board, table.board th, table.board td {
+	    border-spacing: 0; }
+	  /*table.board tr:not(:first-child) th:not(:first-child):hover, table.board tr:not(:first-child) td:not(:first-child):hover {
+	    border: 2px solid #991111; }*/
+	  table.board th, table.board td {
+	    background: #113366;
+	    border: 2px solid #6699DD;
+	    width: 2vw;
+	    height: 2vw;
+	    color: #efefef;
+	    font-weight: 300; }
+
+	.center-text {
+	  text-align: center; }
+
+	.cell.highlight {
+	  background: red; }
+
+	table.board tr td {
+		z-index: 1;
+		box-sizing: border-box;
+	}
+
+	table.board tr td:hover {
+		border: 2px solid #991111;
+		z-index: 2;
+	}
+
+	.ship {
+	  background: grey; }
+	  .ship.snapped {
+	    background: black; }
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.3/TweenMax.min.js"></script>
 
 <!-- Information for websockets to be sent to the server -->
 <input type="hidden" name="root-url" id="root-url" value="<%= root_url %>">
@@ -41,7 +96,7 @@
 		</div>
 		<!--  -->
 
-		<table>
+		<table class="board">
 			<thead>
 				<th class="empty-col"></th>
 				<th class="A">A</th>

@@ -51,16 +51,20 @@ class PlayController < WebsocketRails::BaseController
 		if @player.ships_left
 			@game.user.each do |user|
 				if user == @user
+					puts "User if"
 					next
 				else
 					user.ship.each do |ship|
 						if !ship.is_sunk
+							puts "Ship is not sunk"
 							# ship sunk flag
 							is_sunk = true
 
 							ship.ship_cell do |ship_cell|
 								# if hit
+								puts "Entered ship loop"
 								if ship_cell.row == row && ship_cell.column == col
+									puts "Hit ship cell"
 									# update to is_hit
 									ship_cell.update_attributes(is_hit: true)
 									# update score

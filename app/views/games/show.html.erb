@@ -1,7 +1,39 @@
+<!-- Move elsewhere -->
+<style type="text/css">
+	#progress-container {
+	    position: relative;
+	    margin-left: auto;
+	    margin-right: auto;
+	    width: 70%;
+	    height: 30px;
+	    background-color: grey;
+	}
+	#progress-bar {
+	    position: absolute;
+	    width: 100%;
+	    height: 100%;
+	    background-color: red;
+	}
+
+	#label {
+	    text-align: left; /* If you want to center it */
+	    line-height: 30px; /* Set the line-height to the same as the height of the progress bar container, to center it vertically */
+	    color: white;
+	    margin-left: 5px;
+	}
+</style>
+
 <div class="col l12 s12 m12" style="margin: 20px 0 20px 0">
 	<div class="container">
 		<p class="game_id">Game ID: <%= @game.id %></p>
 		<p class="game_channel">Game Channel: <%= @game.channel %></p>
+		<!-- Reload Bar -->
+		<div id="progress-container">
+    		<div id="progress-bar">
+    			<div id="label">Fire</div>
+    		</div>
+		</div>
+
 		<table>
 			<thead>
 				<th class="empty-col"></th>

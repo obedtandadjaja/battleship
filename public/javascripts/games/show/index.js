@@ -1,17 +1,29 @@
 $(document).ready(function() {
+	setUpSocketConnection();
 
-	// setUpSocketConnection();
+	var click_disabled = false;
+	var shot_time = 2000;
 
 	$('td').click(function() {
-		var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
-		console.log(col);
-		var row = $(this).parent().attr('class');
-		if(col == "empty-col") {
-			swal("Warning", "Please get your head back in the game", "error")
-		} else {
-			sendFire(col, row, 1);
-			swal("You clicked:", col+" : "+row, "success");
+		if (!click_disabled)
+		{
+			var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
+			console.log(col);
+			var row = $(this).parent().attr('class');
+			if(col == "empty-col") {
+				// swal("Warning", "Please get your head back in the game", "error")
+			} else {
+				// sendFire(col, row, 1);
+				// swal("You clicked:", col+" : "+row, "success");
+			}
+			click_disabled = true;
+			move(function() {click_disabled = false;});
+			// setTimeout(function() { click_disabled = false }, shot_time)
 		}
+		// else
+		// {
+		// 	swal("Warning", "Wait!");
+		// }
 	});
 
 	function setUpSocketConnection() {
@@ -30,6 +42,12 @@ $(document).ready(function() {
 		});
 	}
 
+	function fire(col, row, game_id)
+	{
+		var message_data = { "col": col, "row": row, "game_id": game_id };
+  		dispatcher.trigger('fire', JSON.stringify(message_data));
+	}
+
 	function sendFire(col, row, game_id) {
 		$.ajax({
 		    url: '/games/'+game_id,
@@ -43,6 +61,24 @@ $(document).ready(function() {
 	    		alert("Something appears to be wrong");
 	    	}
 	    });
+	}
+
+	// Progress Bar
+	function move(callback) {
+	    var elem = $("#progress-bar"); 
+	    var width = 1;
+	    var id = setInterval(frame, 10);
+	    $("#label").html("Reloading...");
+	    function frame() {
+	        if (width >= 100) {
+	            clearInterval(id);
+	            $("#label").html("Fire!")
+	            callback();
+	        } else {
+	            width++; 
+	            elem.width(width + '%');
+	        }
+	    }
 	}
 
 });

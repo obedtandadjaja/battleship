@@ -63,6 +63,10 @@ $(document).ready(function() {
 		cell.html("hit");
 	});
 
+	sub_channel.bind('gameover', function(response) {
+		$('#game_over').openModal();
+	});
+
 	function fire(col, row, game_id, channel)
 	{
 		var message_data = { "col": col, "row": row, "channel": channel };

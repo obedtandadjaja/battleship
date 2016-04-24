@@ -13,7 +13,7 @@ $(document).ready(function() {
 	var shot_time = 2000;
 
 	for($i = 1; $i < 11; $i++) {
-		var string = "<tr>";
+		var string = '<tr class="'+$i+'">';
 		string += "<td><b>"+$i+"</b></td>";
 		for($x = 1; $x < 11; $x++) {
 			var row = String.fromCharCode(64+$x)
@@ -59,13 +59,13 @@ $(document).ready(function() {
 	sub_channel.bind('hit', function(position) {
 		var c = position[0];
 		var r = position[1];
-		cell = $("#" + r + c);
+		cell = $("#" + c + r);
 		cell.html("hit");
 	});
 
 	function fire(col, row, game_id, channel)
 	{
-		var message_data = { "col": col, "row": row, "game_id": game_id, "channel": channel };
+		var message_data = { "col": col, "row": row, "channel": channel };
   		dispatcher.trigger('fire', JSON.stringify(message_data));
 	}
 

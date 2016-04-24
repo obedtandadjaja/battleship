@@ -38,11 +38,13 @@ class PlayController < WebsocketRails::BaseController
 
   	def fire
   		channel = ActiveSupport::JSON.decode(message)["channel"]
-		game_id = ActiveSupport::JSON.decode(message)["game_id"]
 		col = ActiveSupport::JSON.decode(message)["col"]
 		row = ActiveSupport::JSON.decode(message)["row"]
 
 		is_hit = [true, false].sample
+		if is_hit
+			WebsocketRails[channel].trigger(:hit, [col, row])
+		end
 	end
 
   	def randomize_ship_cells(game)
@@ -117,4 +119,29 @@ class PlayController < WebsocketRails::BaseController
 
   		return [[first_row.chr, first_col], [second_row.chr, second_col]]
   	end
+
+  	def get_ships
+  		@user = current_or_guest_user
+  		@game = Game.friendly.find(params[:id])
+  		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
+
+  		@ship_cells = Array.new;
+  		@player.ship.each do |ship|
+  			ship.ship_cell.each do |cell|
+  				@ship_cells << [cell.row, cell.column]
+  			end
+  		end
+
+  		respond_to do |format|
+  			format.json { render json: @ship_cells }
+  		end
+  		
+  	rescue ActiveRecord::RecordNotFound
+  		flash[:alert] = "Game not found!"
+		redirect_to '/'
+		if is_hit
+			WebsocketRails[channel].trigger(:hit, [col, row])
+		end
+  	end
+
 end

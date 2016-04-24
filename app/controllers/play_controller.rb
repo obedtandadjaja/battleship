@@ -104,6 +104,27 @@ class PlayController < WebsocketRails::BaseController
   		return [[first_row.chr, first_col], [second_row.chr, second_col]]
   	end
 
+  	def get_ships
+  		@user = current_or_guest_user
+  		@game = Game.friendly.find(params[:id])
+  		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
+
+  		@ship_cells = Array.new;
+  		@player.ship.each do |ship|
+  			ship.ship_cell.each do |cell|
+  				@ship_cells << [cell.row, cell.column]
+  			end
+  		end
+
+  		respond_to do |format|
+  			format.json { render json: @ship_cells }
+  		end
+
+  	rescue ActiveRecord::RecordNotFound
+  		flash[:alert] = "Game not found!"
+		redirect_to '/'
+  	end
+
   	def guess
 		@user = current_user || guest_user
 		@game = Game.find(params[:game_id])

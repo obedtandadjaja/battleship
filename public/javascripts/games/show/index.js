@@ -62,13 +62,15 @@ $(document).ready(function() {
 		window.location = "/";
 	});
 
-	sub_channel.bind('hit', function(position) {
-		var c = position[0];
-		var r = position[1];
+	sub_channel.bind('hit', function(response) {
+		var c = response[0];
+		var r = response[1];
+		var score = response[2];
 		cell = $("#" + c + r);
 		cell.removeClass();
 		cell.addClass("hit");
 		cell.html("hit");
+		$(".score").text("Score: "+score);
 	});
 
 	sub_channel.bind('gameover', function(response) {

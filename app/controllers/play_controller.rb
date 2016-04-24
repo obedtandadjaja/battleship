@@ -73,7 +73,7 @@ class PlayController < WebsocketRails::BaseController
 									# create guess
 									Guess.create(game_player_id: @player.id, row: row, col: col, is_hit: true)
 									# broadcast
-									WebsocketRails[channel].trigger(:hit, [col, row])
+									WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
 									break
 								else
 									# create guess

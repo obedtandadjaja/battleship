@@ -33,6 +33,8 @@ class LobbySocketController < WebsocketRails::BaseController
 
 	def breakdown
 		user = current_or_guest_user
+		puts "Breakdown called"
+		puts "Current channel: #{user.current_channel}"
 
 		if user.current_channel == "gamelobby"
 			# Problem here is that we are planning on storing completed games, so you have to find the non-completed game instead of just the first entry. Otherwise, we will accidentally destroy all previous games in which this user has participated
@@ -65,6 +67,9 @@ class LobbySocketController < WebsocketRails::BaseController
 				# Broadcast that there is an update on the game index
 				WebsocketRails["gameindex"].trigger(:update)
 			end
+		elsif user.current_channel == "ingame"
+			# Tell others that a user just disconnected
+			# WebsocketRails[channel].trigger(:disconnect, user)
 		end
 	end
 

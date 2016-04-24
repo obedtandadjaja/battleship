@@ -13,6 +13,13 @@ class PlayController < WebsocketRails::BaseController
 		@game = Game.find(game_id)
 		@game.update_attributes(is_playing: true)
 
+		@user = current_or_guest_user
+		@user.update_attributes(current_channel: "ingame")
+
+		@game.user.each do |user|
+			user.update_attributes(current_channel: "ingame")
+		end
+
 		# Send redirect broadcast
   		WebsocketRails[channel].trigger(:playgame, @game.slug)
   	end

@@ -33,6 +33,7 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 	end
 
 	def show
+		@user = current_or_guest_user
 		@game = Game.friendly.find(params[:id])
 	end
 

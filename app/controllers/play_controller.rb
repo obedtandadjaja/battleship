@@ -144,4 +144,3 @@ class PlayController < WebsocketRails::BaseController
 		end
   	end
 	
-end

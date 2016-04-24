@@ -101,6 +101,8 @@ $(document).ready(function() {
 			data: {},
 			success: function(response) {
 				$.each(response, function(index, array) {
+					$("#"+array[0]+array[1]).removeClass();
+					$("#"+array[0]+array[1]).addClass("ship");
 					$("#"+array[0]+array[1]).text("ship");
 				});
 			}

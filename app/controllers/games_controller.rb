@@ -16,6 +16,20 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 				end
 			end
 		end
+	rescue ActiveRecord::RecordNotFound
+		flash[:alert] = "Game has been terminated."
+		redirect_to '/'
+	end
+
+	def check
+		Game.friendly.find(params[:id])
+		respond_to do |format|
+			format.json { render json: "true" }
+		end
+	rescue ActiveRecord::RecordNotFound
+		respond_to do |format|
+			format.json { render json: "false" }
+		end
 	end
 
 	def show

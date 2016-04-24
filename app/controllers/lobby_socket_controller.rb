@@ -24,7 +24,7 @@ class LobbySocketController < WebsocketRails::BaseController
 		# Add them to an array
 		player_array = []
 		players.each do |player|
-			player_array.append player.user.name
+			player_array.append player.user
 		end
 
 		# Broadcast list of players to everyone in the lobby

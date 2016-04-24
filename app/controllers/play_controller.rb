@@ -14,7 +14,7 @@ class PlayController < WebsocketRails::BaseController
 		@game.update_attributes(is_playing: true)
 
 		# Send redirect broadcast
-  		WebsocketRails[channel].trigger("playgame_#{game_id}", @game.slug)
+  		WebsocketRails[channel].trigger(:playgame, @game.slug)
   	end
 
   	def guess

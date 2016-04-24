@@ -1,6 +1,11 @@
 $(document).ready(function() {
 	setUpSocketConnection();
 
+	var root_url = $("#root-url").val();
+	var channel = $("#game-channel").val();
+	var game_id = $("#game-id").val();
+	var current_player = $("#current-player").val();
+
 	var click_disabled = false;
 	var shot_time = 2000;
 
@@ -18,12 +23,7 @@ $(document).ready(function() {
 			}
 			click_disabled = true;
 			move(function() {click_disabled = false;});
-			// setTimeout(function() { click_disabled = false }, shot_time)
 		}
-		// else
-		// {
-		// 	swal("Warning", "Wait!");
-		// }
 	});
 
 	function setUpSocketConnection() {
@@ -48,20 +48,16 @@ $(document).ready(function() {
   		dispatcher.trigger('fire', JSON.stringify(message_data));
 	}
 
-	function sendFire(col, row, game_id) {
-		$.ajax({
-		    url: '/games/'+game_id,
-		    type: 'PUT',
-		    data: { row: row, col: col},
-		    dataType: "json",
-		    success: function (response) {
-		    	console.log(response);
-		    	
-		    }, error: function (response) {
-	    		alert("Something appears to be wrong");
-	    	}
-	    });
-	}
+
+	var sub_channel = dispatcher.subscribe(channel);
+	
+	// Destroyed game. Kick all players from the lobby
+	sub_channel.bind('destroy', function(response) {
+		// console.log(response);
+		// Disable onbeforeunload on redirect
+		window.onbeforeunload = function() {}
+		window.location = "/";
+	});
 
 	// Progress Bar
 	function move(callback) {

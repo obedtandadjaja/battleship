@@ -84,13 +84,13 @@ class PlayController < WebsocketRails::BaseController
   			second_col = first_col
   			second_row = -1
   			if random2
-  				if(first_row-1 > 0)
+  				if(first_row-1 > 65)
 	  				second_row = first_row-1
 	  			elsif(first_row+1 < 11)
 	  				second_row = first_row+1
 	  			end
   			else
-  				if(first_row+1 < 11)
+  				if(first_row+1 < 76)
 	  				second_row = first_row+1
 	  			elsif(first_row-1 > 0)
 	  				second_row = first_row-1
@@ -116,29 +116,5 @@ class PlayController < WebsocketRails::BaseController
   		end
 
   		return [[first_row.chr, first_col], [second_row.chr, second_col]]
-  	end
-
-  	def get_ships
-  		@user = current_or_guest_user
-  		@game = Game.friendly.find(params[:id])
-  		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
-
-  		@ship_cells = Array.new;
-  		@player.ship.each do |ship|
-  			ship.ship_cell.each do |cell|
-  				@ship_cells << [cell.row, cell.column]
-  			end
-  		end
-
-  		respond_to do |format|
-  			format.json { render json: @ship_cells }
-  		end
-  		
-  	rescue ActiveRecord::RecordNotFound
-  		flash[:alert] = "Game not found!"
-		redirect_to '/'
-		if is_hit
-			WebsocketRails[channel].trigger(:hit, [col, row])
-		end
   	end
 end

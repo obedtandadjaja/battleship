@@ -41,9 +41,67 @@ class PlayController < WebsocketRails::BaseController
 		col = ActiveSupport::JSON.decode(message)["col"]
 		row = ActiveSupport::JSON.decode(message)["row"]
 
-		is_hit = [true, false].sample
-		if is_hit
-			WebsocketRails[channel].trigger(:hit, [col, row])
+		# is_hit = [true, false].sample
+		# if is_hit
+		# 	WebsocketRails[channel].trigger(:hit, [col, row])
+		# end
+		@game = Game.find_by_channel(channel)
+		@user = current_or_guest_user
+		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
+		if @player.ships_left
+			@game.user.each do |user|
+				if user == @user
+					next
+				else
+					user.ship.each do |ship|
+						if !ship.is_sunk
+							# ship sunk flag
+							is_sunk = true
+
+							ship.ship_cell do |ship_cell|
+								# if hit
+								if ship_cell.row == row && ship_cell.column == col
+									# update to is_hit
+									ship_cell.update_attributes(is_hit: true)
+									# update score
+									@player.update_attributes(score: @player.score+1)
+									# broadcast
+									WebsocketRails[channel].trigger(:hit, [col, row])
+									break
+								else
+									# if one of the ship cell is not hit then ship not sunk
+									if !ship_cell.is_hit
+										is_sunk = false
+									end
+								end
+							end
+
+							# check if ship has sunk
+							if is_sunk
+								ship.update_attributes(is_sunk: true)
+							end
+						else
+							next
+						end
+					end
+				end
+			end
+		end
+
+		# check gameover
+		@game.user.each do |user|
+			gameover = true
+			user.ship.each do |ship|
+				if ship.is_sunk == false
+					gameover = false
+				end
+			end
+			if gameover
+				player = GamePlayer.where(game_id: @game.id, user_id: user.id).first
+				player.update_attributes(ships_left: false)
+				user.update_attributes(total_score: user.total_score+player.score)
+				WebsocketRails[channel].trigger(:gameover, player.score)
+			end
 		end
 	end
 

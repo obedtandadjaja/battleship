@@ -29,6 +29,7 @@ WebsocketRails.setup do |config|
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   # config.redis_options = {:host => 'localhost', :port => '6379'}
+
   # For heroku
   config.redis_options = {:host => 'lab.redistogo.com', :port => '10389', :user => 'redistogo', :password => '35e3f38e4d8b2c19e3091a13a4be3c7b'}
 

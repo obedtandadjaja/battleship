@@ -34,6 +34,7 @@ $(document).ready(function() {
 			} else {
 				if ($(this).hasClass("cell"))
 				{
+					// swal("You clicked:", col+" : "+row, "success");
 					fire(col, row, game_id, channel);
 					$(this).removeClass();
 					$(this).addClass("miss");
@@ -106,12 +107,44 @@ $(document).ready(function() {
 			data: {},
 			success: function(response) {
 				$.each(response, function(index, array) {
-					$("#"+array[0]+array[1]).text("ship");
+					if(array[2]) {
+						// signifies that a part of our ship sunk
+						$("#"+array[0]+array[1]).removeClass();
+						$("#"+array[0]+array[1]).addClass("own_hit");
+						$("#"+array[0]+array[1]).text(":(");
+					} else {
+						$("#"+array[0]+array[1]).removeClass();
+						$("#"+array[0]+array[1]).addClass("ship");
+						$("#"+array[0]+array[1]).text("ship");
+					}
+					
+				});
+			}
+		});
+	}
+
+	function getGuesses() {
+		$.ajax({
+			url: '/games/get_guesses/'+game_id+'/'+current_player,
+			method: "PUT",
+			data: {},
+			success: function(response) {
+				$.each(response, function(index, array) {
+					if(array[2]) {
+						$("#"+array[0]+array[1]).removeClass();
+						$("#"+array[0]+array[1]).addClass("hit");
+						$("#"+array[0]+array[1]).text("hit");
+					} else {
+						$("#"+array[0]+array[1]).removeClass();
+						$("#"+array[0]+array[1]).text("miss");
+					}
+					
 				});
 			}
 		});
 	}
 
 	getShips();
+	getGuesses();
 
 });

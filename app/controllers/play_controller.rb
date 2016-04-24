@@ -27,7 +27,7 @@ class PlayController < WebsocketRails::BaseController
 			value.each do |i|
 				ship = Ship.create(game_player_id: @player.id, is_sunk: false)
 				i.each do |x|
-					ShipCell.create(ship_id: ship.id, row: x[0], column: x[1], is_hit: false)
+					ShipCell.create(ship_id: ship.id, column: x[0], row: x[1], is_hit: false)
 				end
 			end
 		end
@@ -47,37 +47,44 @@ class PlayController < WebsocketRails::BaseController
 		# end
 		@game = Game.find_by_channel(channel)
 		@user = current_or_guest_user
+		@players = GamePlayer.where(game_id: @game.id)
 		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
 		if @player.ships_left
-			@game.user.each do |user|
-				if user == @user
+			@players.each do |user|
+				if user.id == @user.id
 					next
 				else
 					user.ship.each do |ship|
-						if !ship.is_sunk
+						# puts ship.ship_cell
+						if ship.is_sunk == false
 							# ship sunk flag
 							is_sunk = true
-
-							ship.ship_cell do |ship_cell|
+							ship.ship_cell.each do |ship_cell|
+								# puts "ship: #{ship_cell.column}#{ship_cell.row}"
+								puts "guess: #{col}#{row}"
 								# if hit
 								if ship_cell.row == row && ship_cell.column == col
 									# update to is_hit
 									ship_cell.update_attributes(is_hit: true)
 									# update score
 									@player.update_attributes(score: @player.score+1)
+									# create guess
+									Guess.create(game_player_id: @player.id, row: row, col: col, is_hit: true)
 									# broadcast
 									WebsocketRails[channel].trigger(:hit, [col, row])
 									break
 								else
+									# create guess
+									Guess.create(game_player_id: @player.id, row: row, col: col, is_hit: false)
 									# if one of the ship cell is not hit then ship not sunk
-									if !ship_cell.is_hit
+									if ship_cell.is_hit == false
 										is_sunk = false
 									end
 								end
 							end
 
 							# check if ship has sunk
-							if is_sunk
+							if is_sunk == true
 								ship.update_attributes(is_sunk: true)
 							end
 						else
@@ -132,8 +139,8 @@ class PlayController < WebsocketRails::BaseController
 
   	def random_ship
   		# randomize first column
-  		first_row = rand(65..75)
-  		first_col = rand(1..10)
+  		first_col = rand(65..75)
+  		first_row = rand(1..10)
 
   		# second column must be a neighbor of the first column
   		random1 = rand(2) == 1
@@ -144,13 +151,13 @@ class PlayController < WebsocketRails::BaseController
   			second_col = first_col
   			second_row = -1
   			if random2
-  				if(first_row-1 > 65)
+  				if(first_row-1 > 0)
 	  				second_row = first_row-1
 	  			elsif(first_row+1 < 11)
 	  				second_row = first_row+1
 	  			end
   			else
-  				if(first_row+1 < 76)
+  				if(first_row+1 < 11)
 	  				second_row = first_row+1
 	  			elsif(first_row-1 > 0)
 	  				second_row = first_row-1
@@ -161,21 +168,21 @@ class PlayController < WebsocketRails::BaseController
   			second_row = first_row
   			second_col = -1
   			if random2
-  				if(first_col-1 > 0)
+  				if(first_col-1 > 64)
 	  				second_col = first_col-1
-	  			elsif(first_col+1 < 11)
+	  			elsif(first_col+1 < 76)
 	  				second_col = first_col+1
 	  			end
   			else
-  				if(first_col+1 < 11)
+  				if(first_col+1 < 64)
 	  				second_col = first_col+1
-	  			elsif(first_col-1 > 0)
+	  			elsif(first_col-1 > 76)
 	  				second_col = first_col-1
 	  			end
   			end
   		end
 
-  		return [[first_row.chr, first_col], [second_row.chr, second_col]]
+  		return [[first_col.chr, first_row], [second_col.chr, second_row]]
   	end
 
   	def get_ships

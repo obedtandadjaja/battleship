@@ -74,7 +74,7 @@
 		            <li><%= link_to current_user.name, controller: "/users", action: "show", id: current_user.slug %></li>
 		            <li><%= link_to "Logout", '/users/sign_out', method: 'delete' %></li>
 		            <% elsif guest_user %>
-		            <li><%= guest_user.name %></li>
+		            <li class="black-text"><%= guest_user.name %></li>
 					<li><%= link_to 'Login', '/users/sign_in' %></li>
                 	<li><%= link_to 'Sign up', '/users/sign_up' %></li>
                 	<li><%= link_to "Logout from guest user", '/destroy_guest', method: 'delete' %></li>
@@ -162,6 +162,7 @@
 	<script>
 	$(document).ready(function(){
 	  $('select').material_select();
+	  $(".button-collapse").sideNav();
 	  $('.alert a').click(function()
 	  {
 	    $('.alert').remove();

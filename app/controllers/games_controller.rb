@@ -37,10 +37,10 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
   		@game = Game.friendly.find(params[:id])
   		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
 
-  		@ship_cells = Array.new;
+  		@ship_cells = Array.new
   		@player.ship.each do |ship|
   			ship.ship_cell.each do |cell|
-  				@ship_cells << [cell.row, cell.column]
+  				@ship_cells << [cell.column, cell.row, cell.is_hit]
   			end
   		end
 
@@ -51,9 +51,25 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
   	rescue ActiveRecord::RecordNotFound
   		flash[:alert] = "Game not found!"
 		redirect_to '/'
-		# if is_hit
-		# 	WebsocketRails[channel].trigger(:hit, [col, row])
-		# end
+  	end
+
+  	def get_guesses
+  		@user = User.find_by_slug(params[:user_slug])
+  		@game = Game.friendly.find(params[:id])
+  		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
+
+  		@guess_cells = Array.new
+  		@player.guess.each do |cell|
+			@guess_cells << [cell.column, cell.row, cell.is_hit]
+  		end
+
+  		respond_to do |format|
+  			format.json { render json: @guess_cells }
+  		end
+  		
+  	rescue ActiveRecord::RecordNotFound
+  		flash[:alert] = "Game not found!"
+		redirect_to '/'
   	end
 
 	def show

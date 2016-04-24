@@ -7,7 +7,7 @@ $(document).ready(function() {
 	var current_player = $("#current-player").val();
 
 	// connect to server like normal
-	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket'); 
+	var dispatcher = new WebSocketRails(root_url.replace("http://", "").replace("https://", "") + 'websocket'); 
 
 	var click_disabled = false;
 	var shot_time = 2000;
@@ -17,7 +17,7 @@ $(document).ready(function() {
 		string += "<td><b>"+$i+"</b></td>";
 		for($x = 1; $x < 11; $x++) {
 			var row = String.fromCharCode(64+$x)
-			string += "<td id="+row+$i+">cell</td>";
+			string += '<td class="cell" id='+row+$i+'>cell</td>';
 		}
 		string += "</tr>";
 		$('tbody').append(string);
@@ -32,12 +32,17 @@ $(document).ready(function() {
 			if(col == "empty-col") {
 				// swal("Warning", "Please get your head back in the game", "error")
 			} else {
-				fire(col, row, game_id, channel);
-				$(this).html("miss");
-				// sendFire(col, row, 1);
-				// swal("You clicked:", col+" : "+row, "success");
-				click_disabled = true;
-				move(function() {click_disabled = false;});
+				if ($(this).hasClass("cell"))
+				{
+					fire(col, row, game_id, channel);
+					$(this).removeClass();
+					$(this).addClass("miss");
+					$(this).html("miss");
+					// sendFire(col, row, 1);
+					// swal("You clicked:", col+" : "+row, "success");
+					click_disabled = true;
+					move(function() {click_disabled = false;});
+				}
 			}
 		}
 	});
@@ -60,6 +65,8 @@ $(document).ready(function() {
 		var c = position[0];
 		var r = position[1];
 		cell = $("#" + c + r);
+		cell.removeClass();
+		cell.addClass("hit");
 		cell.html("hit");
 	});
 

@@ -29,7 +29,7 @@ $(document).ready(function() {
   	checkGameExists();
 
 	// Should work in development and live
-	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket'); 
+	var dispatcher = new WebSocketRails(root_url.replace("http://", "").replace("https://", "") + 'websocket');  
 	
 	dispatcher.on_open = function(data) {
   		var message_data = { "channel": channel, "game_id": game_id };

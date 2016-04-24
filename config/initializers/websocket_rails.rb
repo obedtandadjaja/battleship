@@ -29,7 +29,9 @@ WebsocketRails.setup do |config|
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   # config.redis_options = {:host => 'localhost', :port => '6379'}
-  config.redis_options = {:host => 'lab.redistogo.com', :port => '10084', :user => 'redistogo', :password => '468a6774c46f2fe2c616a2d6d6e82581'}
+
+  # For heroku
+  config.redis_options = {:host => 'lab.redistogo.com', :port => '10389', :user => 'redistogo', :password => '35e3f38e4d8b2c19e3091a13a4be3c7b'}
 
   # By default, all subscribers in to a channel will be removed
   # when that channel is made private. If you don't wish active

@@ -86,13 +86,13 @@ class PlayController < WebsocketRails::BaseController
   			second_col = first_col
   			second_row = -1
   			if random2
-  				if(first_row-1 > 0)
+  				if(first_row-1 > 65)
 	  				second_row = first_row-1
 	  			elsif(first_row+1 < 11)
 	  				second_row = first_row+1
 	  			end
   			else
-  				if(first_row+1 < 11)
+  				if(first_row+1 < 76)
 	  				second_row = first_row+1
 	  			elsif(first_row-1 > 0)
 	  				second_row = first_row-1

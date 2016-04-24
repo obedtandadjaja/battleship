@@ -94,4 +94,19 @@ $(document).ready(function() {
 	    }
 	}
 
+	function getShips() {
+		$.ajax({
+			url: '/games/get_ships/'+game_id+'/'+current_player,
+			method: "PUT",
+			data: {},
+			success: function(response) {
+				$.each(response, function(index, array) {
+					$("#"+array[0]+array[1]).text("ship");
+				});
+			}
+		});
+	}
+
+	getShips();
+
 });

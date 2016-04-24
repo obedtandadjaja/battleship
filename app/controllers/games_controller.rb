@@ -32,6 +32,30 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		end
 	end
 
+	def get_ships
+  		@user = User.find_by_slug(params[:user_slug])
+  		@game = Game.friendly.find(params[:id])
+  		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
+
+  		@ship_cells = Array.new;
+  		@player.ship.each do |ship|
+  			ship.ship_cell.each do |cell|
+  				@ship_cells << [cell.row, cell.column]
+  			end
+  		end
+
+  		respond_to do |format|
+  			format.json { render json: @ship_cells }
+  		end
+  		
+  	rescue ActiveRecord::RecordNotFound
+  		flash[:alert] = "Game not found!"
+		redirect_to '/'
+		# if is_hit
+		# 	WebsocketRails[channel].trigger(:hit, [col, row])
+		# end
+  	end
+
 	def show
 		@user = current_or_guest_user
 		@game = Game.friendly.find(params[:id])

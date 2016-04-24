@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get '/get_in_game_lobby_players/:id' => 'games#get_in_game_lobby_players'
   post '/games/invite/:id' => 'games#invite'
   put '/games/check/:id' => 'games#check'
-  put '/games/get_ships/:id' => 'play#get_ships'
+  put '/games/get_ships/:id/:user_slug' => 'games#get_ships'
 
   resources :games
   resources :users

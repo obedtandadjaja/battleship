@@ -7,7 +7,7 @@ $(document).ready(function() {
 	var current_player = $("#current-player").val();
 
 	// connect to server like normal
-	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket', false); 
+	var dispatcher = new WebSocketRails(root_url.replace("http://", "").replace("https://", "") + 'websocket'); 
 
 	var click_disabled = false;
 	var shot_time = 2000;

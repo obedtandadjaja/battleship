@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   post '/games/invite/:id' => 'games#invite'
   put '/games/check/:id' => 'games#check'
   put '/games/get_ships/:id/:user_slug' => 'games#get_ships'
-  get '/gameover/:id' => 'games#game_over'
+  put '/games/get_guesses/:id/:user_slug' => 'games#get_guesses'
 
   resources :games
   resources :users

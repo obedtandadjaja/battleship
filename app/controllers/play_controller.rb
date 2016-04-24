@@ -38,11 +38,13 @@ class PlayController < WebsocketRails::BaseController
 
   	def fire
   		channel = ActiveSupport::JSON.decode(message)["channel"]
-		game_id = ActiveSupport::JSON.decode(message)["game_id"]
 		col = ActiveSupport::JSON.decode(message)["col"]
 		row = ActiveSupport::JSON.decode(message)["row"]
 
 		is_hit = [true, false].sample
+		if is_hit
+			WebsocketRails[channel].trigger(:hit, [col, row])
+		end
 	end
 
   	def randomize_ship_cells(game)

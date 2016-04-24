@@ -7,12 +7,6 @@ $(document).ready(function() {
 
 	// Should work in development and live
 	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket');
-	
-	dispatcher.on_open = function(data) {
-  		var message_data = { "channel": channel, "game_id": game_id };
-  		// Make sure that breakdown is not called after
-  		setTimeout(function(){ dispatcher.trigger('setupgame', JSON.stringify(message_data)); }, 500);
-	}
 
 	$('td').click(function() {
 		var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
@@ -27,6 +21,8 @@ $(document).ready(function() {
 		}
 	});
 
+	var sub_channel = dispatcher.subscribe(channel);
+	
 	// Destroyed game. Kick all players from the lobby
 	sub_channel.bind('destroy', function(response) {
 		// console.log(response);

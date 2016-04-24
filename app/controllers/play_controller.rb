@@ -133,15 +133,12 @@ class PlayController < WebsocketRails::BaseController
   		respond_to do |format|
   			format.json { render json: @ship_cells }
   		end
-
+  		
   	rescue ActiveRecord::RecordNotFound
   		flash[:alert] = "Game not found!"
 		redirect_to '/'
-  	end
-
 		if is_hit
 			WebsocketRails[channel].trigger(:hit, [col, row])
 		end
   	end
-	
 end

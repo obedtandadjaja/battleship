@@ -139,9 +139,6 @@ class PlayController < WebsocketRails::BaseController
   	rescue ActiveRecord::RecordNotFound
   		flash[:alert] = "Game not found!"
 		redirect_to '/'
-		if is_hit
-			WebsocketRails[channel].trigger(:hit, [col, row])
-		end
   	end
 
 end

@@ -6,6 +6,9 @@ $(document).ready(function() {
 	var game_id = $("#game-id").val();
 	var current_player = $("#current-player").val();
 
+	// connect to server like normal
+	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket'); 
+
 	var click_disabled = false;
 	var shot_time = 2000;
 
@@ -29,38 +32,21 @@ $(document).ready(function() {
 			if(col == "empty-col") {
 				// swal("Warning", "Please get your head back in the game", "error")
 			} else {
+				fire(col, row, game_id, channel);
+				$(this).html("miss");
 				// sendFire(col, row, 1);
 				// swal("You clicked:", col+" : "+row, "success");
+				click_disabled = true;
+				move(function() {click_disabled = false;});
 			}
-			click_disabled = true;
-			move(function() {click_disabled = false;});
 		}
 	});
 
-	function setUpSocketConnection() {
-		// connect to server like normal
-		var dispatcher = new WebSocketRails('localhost:3000/websocket');
-
-		// subscribe to the channel
-		var channel = dispatcher.subscribe($('.channel-name').text());
-
-		// You can also pass an object to the subscription event
-		// var channel = dispatcher.subscribe({channel: 'channel_name', foo: 'bar'});
-
-		// bind to a channel event
-		channel.bind('update_board', function(data) {
-		  	console.log('channel event received: ' + data);
-		});
-	}
-
-	function fire(col, row, game_id)
-	{
-		var message_data = { "col": col, "row": row, "game_id": game_id };
-  		dispatcher.trigger('fire', JSON.stringify(message_data));
-	}
-
-
 	var sub_channel = dispatcher.subscribe(channel);
+
+	sub_channel.bind('update_board', function(data) {
+		console.log('channel event received: ' + data);
+	});
 	
 	// Destroyed game. Kick all players from the lobby
 	sub_channel.bind('destroy', function(response) {
@@ -69,6 +55,19 @@ $(document).ready(function() {
 		window.onbeforeunload = function() {}
 		window.location = "/";
 	});
+
+	sub_channel.bind('hit', function(position) {
+		var c = position[0];
+		var r = position[1];
+		cell = $("#" + r + c);
+		cell.html("hit");
+	});
+
+	function fire(col, row, game_id, channel)
+	{
+		var message_data = { "col": col, "row": row, "game_id": game_id, "channel": channel };
+  		dispatcher.trigger('fire', JSON.stringify(message_data));
+	}
 
 	// Progress Bar
 	function move(callback) {

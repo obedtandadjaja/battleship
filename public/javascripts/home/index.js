@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	alert("test");
 
 	$('.modal-trigger').leanModal();
 
@@ -15,7 +16,7 @@ $(document).ready(function() {
 	var channel = "gameindex";
 
 	// Websocket
-	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket');
+	var dispatcher = new WebSocketRails(root_url.replace("http://", "") + 'websocket', false);
 
 	var sub_channel = dispatcher.subscribe(channel);
 	sub_channel.bind('update', function(response) {

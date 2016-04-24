@@ -63,7 +63,9 @@ class PlayController < WebsocketRails::BaseController
 								# puts "ship: #{ship_cell.column}#{ship_cell.row}"
 								puts "guess: #{col}#{row}"
 								# if hit
+								puts "Entered ship loop"
 								if ship_cell.row == row && ship_cell.column == col
+									puts "Hit ship cell"
 									# update to is_hit
 									ship_cell.update_attributes(is_hit: true)
 									# update score

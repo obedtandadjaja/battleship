@@ -6,13 +6,14 @@ $(window).on('resize', function(){
 $(document).ready(function() {
 	// setUpSocketConnection();
 	$('.modal-trigger').leanModal();
-	$('.score-container').load("/games/get_scores/"+game_id);
 
 	var root_url = $("#root-url").val();
 	var channel = $("#game-channel").val();
 	var game_id = $("#game-id").val();
 	var current_player = $("#current-player").val();
 	var still_in_game = $("#still-in-game").val();
+
+	$('.leaderboard-container').load("/games/get_scores/"+game_id);
 
 	// connect to server like normal
 	var dispatcher = new WebSocketRails(root_url.replace("http://", "").replace("https://", "") + 'websocket'); 
@@ -109,7 +110,7 @@ $(document).ready(function() {
 		// 	$(".score").text("Score: "+score);
 		// }
 		
-		$('.score-container').load("/games/get_scores/"+game_id);
+		$('.leaderboard-container').load("/games/get_scores/"+game_id);
 	});
 
 

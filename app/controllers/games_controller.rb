@@ -84,7 +84,8 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
   				user_and_scores << [User.find(player.user_id).name, player.score]
   			end
   		end
-  		user_and_scores.sort_by { |x| x[2] }
+  		user_and_scores.sort_by { |x| x[1] }
+  		puts user_and_scores
   		render partial: "games/game_scores", :locals => {:array => user_and_scores}
   	end
 

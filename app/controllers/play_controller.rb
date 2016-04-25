@@ -47,9 +47,7 @@ class PlayController < WebsocketRails::BaseController
 		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
 		if @player.ships_left == true
 			if @player.ships_left
-				leaderboard = Hash.new
 				@players.each do |user|
-					leaderboard[user.user.name] = [user.score, user.user.slug]
 					if user.user_id == @user.id
 						next
 					else
@@ -68,13 +66,12 @@ class PlayController < WebsocketRails::BaseController
 									ship_cell.update_attributes(is_hit: true)
 									# update score
 									@player.update_attributes(score: @player.score+1)
-									leaderboard[@player.user.name] = [@player.score, @player.user.slug]
 
 									# create guess
 									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
 									# broadcast
-									WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score], leaderboard])
+									WebsocketRails[channel].trigger(:hit, [col, row])
 								else
 									# create guess
 									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
@@ -113,8 +110,15 @@ class PlayController < WebsocketRails::BaseController
 				end
 			end
 		end
+	end
 
+	def check_gameover
 		# check gameover
+		channel = ActiveSupport::JSON.decode(message)["channel"]
+		
+		@game = Game.find_by_channel(channel)
+		@players = GamePlayer.where(game_id: @game.id)
+
 		players_left = GamePlayer.where(game_id: @game.id, ships_left: true)
 		if players_left.length < 2
 			puts "it goes in"

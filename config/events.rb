@@ -14,6 +14,7 @@ WebsocketRails::EventMap.describe do
   subscribe :setuplobby, 'lobby_socket#setup'
   subscribe :playgame, 'play#start_game'
   subscribe :fire, 'play#fire'
+  subscribe :check_gameover, 'play#check_gameover'
   # subscribe :breakdownlobby, 'lobby_socket#breakdown'
   subscribe :client_disconnected, 'lobby_socket#breakdown'
   subscribe :connection_closed, 'lobby_socket#breakdown'

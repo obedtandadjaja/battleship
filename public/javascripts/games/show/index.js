@@ -77,8 +77,6 @@ $(document).ready(function() {
 	sub_channel.bind('hit', function(response) {
 		var c = response[0];
 		var r = response[1];
-		var intended_user = response[2][0]
-		var score = response[2][1];
 		cell = $("#" + c + r);
 		if(cell.hasClass("ship")) {
 			cell.removeClass();
@@ -87,7 +85,6 @@ $(document).ready(function() {
 			cell.removeClass();
 			cell.addClass("hit");
 		}
-		scores = response[3];
 		// leaderboard = [];
 		// for(score in scores){
 		//  	leaderboard.push([score,scores[score]])
@@ -111,6 +108,7 @@ $(document).ready(function() {
 		// }
 		
 		$('.leaderboard-container').load("/games/get_scores/"+game_id);
+		checkGameOver();
 	});
 
 
@@ -199,7 +197,7 @@ $(document).ready(function() {
 			data: {},
 			success: function(response) {
 				$.each(response, function(index, array) {
-					if(array[2] == true) {
+					if(array[2]) {
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("hit");
 						// $("#"+array[0]+array[1]).text("hit");
@@ -211,6 +209,11 @@ $(document).ready(function() {
 				});
 			}
 		});
+	}
+
+	function checkGameOver() {
+		var message_data = {"channel": channel };
+		dispatcher.trigger('check_gameover', JSON.stringify(message_data));
 	}
 
 	getShips();

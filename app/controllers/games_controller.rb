@@ -85,7 +85,6 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
   			end
   		end
   		user_and_scores.sort_by { |x| x[1] }
-  		puts user_and_scores
   		render partial: "games/game_scores", :locals => {:array => user_and_scores}
   	end
 

@@ -98,18 +98,21 @@ class PlayController < WebsocketRails::BaseController
 		end
 
 		# check gameover
-		@game.user.each do |user|
+		@players.each do |player|
 			gameover = true
-			user.ship.each do |ship|
+			player.ship.each do |ship|
 				if ship.is_sunk == false
 					gameover = false
 				end
 			end
 			if gameover
-				player = GamePlayer.where(game_id: @game.id, user_id: user.id).first
-				player.update_attributes(ships_left: false)
-				user.update_attributes(total_score: user.total_score+player.score)
-				WebsocketRails[channel].trigger(:gameover, player.score)
+				# get current player
+				current_player = GamePlayer.where(game_id: @game.id, user_id: player.id).first
+				# update the ship left to false
+				current_player.update_attributes(ships_left: false)
+				# update user total score
+				User.find(current_player.user_id).update_attributes(total_score: user.total_score+player.score)
+				WebsocketRails[channel].trigger(:gameover, current_player.score)
 			end
 		end
 	end

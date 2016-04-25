@@ -73,7 +73,8 @@ $(document).ready(function() {
 	sub_channel.bind('hit', function(response) {
 		var c = response[0];
 		var r = response[1];
-		var score = response[2];
+		var intended_user = response[2][0]
+		var score = response[2][1];
 		cell = $("#" + c + r);
 		if(cell.hasClass("ship")) {
 			cell.removeClass();
@@ -83,11 +84,13 @@ $(document).ready(function() {
 			cell.addClass("hit");
 		}
 		// cell.html("hit");
-		$(".score").text("Score: "+score);
+		if(intended_user == current_player) {
+			$(".score").text("Score: "+score);
+		}
 	});
 
 	sub_channel.bind('gameover', function(response) {
-		$('.score').text(response);
+		$('.modal-score').text(response);
 		$('#game_over').openModal();
 	});
 

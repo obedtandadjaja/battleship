@@ -89,22 +89,22 @@ ActiveRecord::Schema.define(version: 20160413033053) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.integer  "games_played"
-    t.integer  "high_score"
-    t.float    "avg_score"
-    t.integer  "wins"
-    t.integer  "losses"
-    t.integer  "total_score"
+    t.integer  "games_played",           default: 0
+    t.integer  "high_score",             default: 0
+    t.float    "avg_score",              default: 0.0
+    t.integer  "wins",                   default: 0
+    t.integer  "losses",                 default: 0
+    t.integer  "total_score",            default: 0
     t.string   "slug"
     t.integer  "current_channel",        default: 0
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "email",                  default: "",  null: false
+    t.string   "encrypted_password",     default: "",  null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,   null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"

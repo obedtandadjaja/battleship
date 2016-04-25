@@ -71,7 +71,7 @@ class PlayController < WebsocketRails::BaseController
 								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
 								# broadcast
-								WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
+								WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score]])
 								break
 							else
 								# create guess
@@ -96,20 +96,27 @@ class PlayController < WebsocketRails::BaseController
 
 		# check gameover
 		@players.each do |player|
-			gameover = 0
-			player.ship.each do |ship|
-				if ship.is_sunk == false
-					gameover += 1
+			puts "entered player loop"
+			if player.ships_left == true
+				puts "entered ship left if"
+				gameover = 0
+				player.ship.each do |ship|
+					puts "entered ship loop"
+					if ship.is_sunk == false
+						gameover += 1
+					end
 				end
-			end
-			if gameover == 0
-				# get current player
-				current_player = GamePlayer.where(game_id: @game.id, user_id: player.id).first
-				# update the ship left to false
-				current_player.update_attributes(ships_left: false)
-				# update user total score
-				User.find(current_player.user_id).update_attributes(total_score: user.total_score+player.score)
-				WebsocketRails[channel].trigger(:gameover, current_player.score)
+				if gameover == 0
+					puts "Entered gameover!"
+					# update the ship left to false
+					player.update_attributes(ships_left: false)
+					puts "updated current_player"
+					# update user total score
+					player_user = User.find(player.user_id)
+					player_user.update_attributes(total_score: (player_user.total_score+player.score))
+					puts "updated user total score"
+					WebsocketRails[channel].trigger(:gameover, [player_user.slug, player.score])
+				end
 			end
 		end
 	end

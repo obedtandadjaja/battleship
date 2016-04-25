@@ -91,11 +91,32 @@ $(document).ready(function() {
 		}
 	});
 
-	sub_channel.bind('gameover', function(response) {
+	sub_channel.bind('noshipleft', function(response) {
 		if(response[0] == current_player) {
-			$('.modal-score').text("Your score: " + response[1]);
+			$('.modal').closeModal();
+			$('.modal-title').text("All your ships have sunk.");
+			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
 			$('.modal-trigger').click();
 		}
+	});
+
+	sub_channel.bind('gameover', function(response) {
+		var flag = false;
+		$.each(response.winner, function(index, array) {
+			if(array[0] == current_player) {
+				$('.modal-title').text("Congratulations! You won!");
+				flag = true;
+			}
+		});
+		if(flag == false) {
+			$('.modal-title').text("Game over! You lost!");
+		}
+		var string = "<b>Scores: </b>";
+		$.each(response.scores, function(index, array) {
+			string += "<br>"+array[0]+": "+array[1];
+		});
+		$('.modal-body').text(string);
+		$('.modal-trigger').click();
 	});
 
 	function fire(col, row, game_id, channel)

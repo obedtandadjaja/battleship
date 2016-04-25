@@ -109,7 +109,7 @@ class PlayController < WebsocketRails::BaseController
 					player_user = User.find(player.user_id)
 					player_user.update_attributes(total_score: (player_user.total_score+player.score))
 					puts "updated user total score"
-					WebsocketRails[channel].trigger(:gameover, [player_user.slug, player.score])
+					WebsocketRails[channel].trigger(:noshipleft, [player_user.slug, player.score])
 				end
 			end
 		end
@@ -124,9 +124,9 @@ class PlayController < WebsocketRails::BaseController
 				scores << [User.find(player.user_id), player.score]
 				if player.score > winner[0][1]
 					winner.clear!
-					winner << [User.find(player.user_id), player.score]
+					winner << [User.find(player.user_id).name, player.score]
 				elsif player.score == winner[0][1]
-					winner << [User.find(player.user_id), player.score]
+					winner << [User.find(player.user_id).name, player.score]
 				end
 			end
 			WebsocketRails[channel].trigger(:gameover, {winner: winner, scores: scores})

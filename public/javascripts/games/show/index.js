@@ -5,7 +5,9 @@ $(window).on('resize', function(){
 
 $(document).ready(function() {
 	// setUpSocketConnection();
-	$('.modal-trigger').leanModal();
+	$('.modal-trigger').leanModal({
+		dismissible: false
+	});
 
 	var root_url = $("#root-url").val();
 	var channel = $("#game-channel").val();

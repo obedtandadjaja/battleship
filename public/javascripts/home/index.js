@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 	function reloadGames() {
 		$('.chaos_games').load('/get_chaos_games');
+		$('.modal-trigger').leanModal();
 		$('.traditional_games').load('/get_traditional_games');
 		$('.modal-trigger').leanModal();
 		console.log("triggered!");

@@ -113,7 +113,7 @@ $(document).ready(function() {
 
 	sub_channel.bind('noshipleft', function(response) {
 		if(response[0] == current_player) {
-			$('.modal').closeModal();
+			// $('.modal').closeModal();
 			$('.modal-title').text("All your ships have sunk.");
 			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
 			$('.modal-trigger').click();

@@ -40,6 +40,9 @@ $(document).ready(function() {
 	// Websocket when user hits play
 	$('#play-button').click(function() {
   		var message_data = { "channel": channel, "game_id": game_id };
+  		// $(this).addClass("disabled");
+  		$(this).html("Loading...");
+  		// $(this).attr("disabled", true);
   		// Make sure that breakdown is not called after
   		setTimeout(function(){ dispatcher.trigger('playgame', JSON.stringify(message_data)); }, 500);
   	});

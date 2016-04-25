@@ -96,13 +96,13 @@ class PlayController < WebsocketRails::BaseController
 
 		# check gameover
 		@players.each do |player|
-			gameover = true
+			gameover = 0
 			player.ship.each do |ship|
 				if ship.is_sunk == false
-					gameover = false
+					gameover += 1
 				end
 			end
-			if gameover
+			if gameover == 0
 				# get current player
 				current_player = GamePlayer.where(game_id: @game.id, user_id: player.id).first
 				# update the ship left to false
@@ -141,7 +141,7 @@ class PlayController < WebsocketRails::BaseController
 
   	def random_ship
   		# randomize first column
-  		first_col = rand(65..75)
+  		first_col = rand(65..74)
   		first_row = rand(1..10)
 
   		# second column must be a neighbor of the first column
@@ -176,7 +176,7 @@ class PlayController < WebsocketRails::BaseController
 	  				second_col = first_col+1
 	  			end
   			else
-  				if(first_col+1 < 76)
+  				if(first_col+1 < 75)
 	  				second_col = first_col+1
 	  			else
 	  				second_col = first_col-1

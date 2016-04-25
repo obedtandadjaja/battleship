@@ -1,3 +1,8 @@
+$(window).on('resize', function(){
+  var size =$("table").width();
+  $("td").height(size/22);
+});
+
 $(document).ready(function() {
 	// setUpSocketConnection();
 
@@ -17,11 +22,14 @@ $(document).ready(function() {
 		string += "<td class='cell-index'>"+$i+"</td>";
 		for($x = 1; $x < 11; $x++) {
 			var col = String.fromCharCode(64+$x)
-			string += '<td class="cell" data-location-x="'+$i+'" data-location-y="'+col+'" id='+col+$i+'>cell</td>';
+			string += '<td class="cell" data-location-x="'+$i+'" data-location-y="'+col+'" id='+col+$i+'></td>';
 		}
 		string += "</tr>";
 		$('tbody').append(string);
 	}
+
+	var size =$("table").width();
+  	$("td").height(size/22);
 
 	$('td').click(function() {
 		if (!click_disabled)
@@ -38,7 +46,7 @@ $(document).ready(function() {
 					fire(col, row, game_id, channel);
 					$(this).removeClass();
 					$(this).addClass("miss");
-					$(this).html("miss");
+					// $(this).html("miss");
 					// sendFire(col, row, 1);
 					// swal("You clicked:", col+" : "+row, "success");
 					click_disabled = true;
@@ -69,7 +77,7 @@ $(document).ready(function() {
 		cell = $("#" + c + r);
 		cell.removeClass();
 		cell.addClass("hit");
-		cell.html("hit");
+		// cell.html("hit");
 		$(".score").text("Score: "+score);
 	});
 
@@ -113,11 +121,11 @@ $(document).ready(function() {
 						// signifies that a part of our ship sunk
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("own_hit");
-						$("#"+array[0]+array[1]).text(":(");
+						// $("#"+array[0]+array[1]).text(":(");
 					} else {
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("ship");
-						$("#"+array[0]+array[1]).text("ship");
+						// $("#"+array[0]+array[1]).text("ship");
 					}
 					
 				});
@@ -135,11 +143,11 @@ $(document).ready(function() {
 					if(array[2]) {
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("hit");
-						$("#"+array[0]+array[1]).text("hit");
+						// $("#"+array[0]+array[1]).text("hit");
 					} else {
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("miss");
-						$("#"+array[0]+array[1]).text("miss");
+						// $("#"+array[0]+array[1]).text("miss");
 					}
 				});
 			}

@@ -82,17 +82,25 @@
 	}
 
 	table.board tr td {
-		z-index: 1;
-		box-sizing: border-box;
+		width: 2vw;
+		height: 2vw;
 	}
 
 	table.board tr td:hover {
 	    border: 2px solid red;
 	}
 
-	.ship {
-	  background: grey; }
-	  .ship.snapped {
+	table.board tr td.miss {
+		background: white;
+	}
+
+	table.board tr td.hit {
+		background: red;
+	}
+
+	table.board tr td.ship {
+	  background: #333; }
+	  .cell.ship.snapped {
 	    background: black; }
 </style>
 

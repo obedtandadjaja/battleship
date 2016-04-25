@@ -85,11 +85,31 @@ $(document).ready(function() {
 			cell.removeClass();
 			cell.addClass("hit");
 		}
-		// cell.html("hit");
-		if(intended_user == current_player) {
-			$(".score").text("Score: "+score);
+		scores = response[3];
+		leaderboard = [];
+		for(score in scores){
+		 	leaderboard.push([score,scores[score]])
 		}
+		leaderboard.sort(function(a,b){return a[1][0] - b[1][0]});
+		leaderboard.reverse();
+		$(".score").empty();
+		$(".score").append("<h2>Leaderboard:</h2>");
+		$(".score").append('<ul class="leaderboard">');
+		$.each(leaderboard, function(index, value) {
+			if (current_player == value[1][1])
+			{
+				value[0] = "You"
+			}
+			$(".leaderboard").append("<li>" + value[0] + ": " + value[1][0] + "</li>");
+		});
+
+
+		// cell.html("hit");
+		// if(intended_user == current_player) {
+		// 	$(".score").text("Score: "+score);
+		// }
 	});
+
 
 	sub_channel.bind('noshipleft', function(response) {
 		if(response[0] == current_player) {
@@ -97,6 +117,7 @@ $(document).ready(function() {
 			$('.modal-title').text("All your ships have sunk.");
 			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
 			$('.modal-trigger').click();
+			click_disabled = true;
 		}
 	});
 

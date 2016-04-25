@@ -1,15 +1,11 @@
 $(document).ready(function() {
 
-	$('.modal-trigger').leanModal();
-
 	setTimeout(function(){ reloadGames(); }, 500);
 
 	function reloadGames() {
 		$('.chaos_games').load('/get_chaos_games');
-		$('.modal-trigger').leanModal();
 		$('.traditional_games').load('/get_traditional_games');
-		$('.modal-trigger').leanModal();
-		console.log("triggered!");
+		setTimeout(function(){ $('.modal-trigger').leanModal(); }, 300);
 	}
 	
 	var root_url = $("#root-url").val();

@@ -1,29 +1,29 @@
 <% if games.length != 0 %>
 	<% games.each do |game| %>
 		<% if game.password != "" %>
-		<a href="#modal_<%= game.slug %>" class="modal-trigger">
-		<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>
-		</a>
-		<!-- Modal -->
-		<div id="modal_<%= game.slug %>" class="modal">
-		    <div class="modal-content">
-		      	<div class="row">
-		      		<h5 class="center"><%= game.name %> is password protected</h5>
-		      		<%= form_for(:game, url: "/games/authorize/#{game.slug}") do |f| %>
-		      		<div class="col l8 m8 s12">
-			      		<div class="input-field">
-			      			<%= f.password_field :password %>
-			      			<label for="password">Password</label>
+			<a class="modal-trigger btn blue-grey col s12" href="#modal_<%= game.slug %>" style="margin-bottom: 10px">
+			<%= game.name %>
+			</a>
+			<!-- Modal -->
+			<div id="modal_<%= game.slug %>" class="modal">
+			    <div class="modal-content">
+			      	<div class="row">
+			      		<h5 class="center"><%= game.name %> is password protected</h5>
+			      		<%= form_for(:game, url: "/games/authorize/#{game.slug}") do |f| %>
+			      		<div class="col l8 m8 s12">
+				      		<div class="input-field">
+				      			<%= f.password_field :password %>
+				      			<label for="password">Password</label>
+				      		</div>
 			      		</div>
-		      		</div>
-		      		<%= f.submit "Enter lobby", class: "btn blue-grey col l4 m4 s12", style: "margin-top: 20px" %>
-		      		<% end %>
-		      	</div>
-		    </div>
-		    <div class="modal-footer">
-		      	<a href="#!" class=" modal-action modal-close btn-flat">Close</a>
-		    </div>
-		</div>
+			      		<%= f.submit "Enter lobby", class: "btn blue-grey col l4 m4 s12", style: "margin-top: 20px" %>
+			      		<% end %>
+			      	</div>
+			    </div>
+			    <div class="modal-footer">
+			      	<a href="#!" class=" modal-action modal-close btn-flat">Close</a>
+			    </div>
+			</div>
 		<% else %>
 			<a href="/games/in_game_lobby/<%= game.slug %>">
 			<button class="btn blue-grey col s12" style="margin-bottom: 10px"><%= game.name %></button>

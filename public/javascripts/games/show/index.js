@@ -122,6 +122,7 @@ $(document).ready(function() {
 	});
 
 	sub_channel.bind('gameover', function(response) {
+		console.log(response);
 		var flag = false;
 		$.each(response.winner, function(index, array) {
 			if(array[0] == current_player) {
@@ -137,6 +138,7 @@ $(document).ready(function() {
 			string += "<br>"+array[0]+": "+array[1];
 		});
 		$('.modal-body').html(string);
+		$('.modal-footer').html('<a href="/" class=" modal-action modal-close btn-flat">Exit game</a>');
 		$('.modal-trigger').click();
 	});
 

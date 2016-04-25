@@ -124,12 +124,12 @@ class PlayController < WebsocketRails::BaseController
 			winner = [["sample_user", 0]]
 			puts "enter players loop"
 			@players.each do |player|
-				scores << [User.find(player.user_id), player.score]
+				scores << [User.find(player.user_id).name, player.score]
 				if player.score > winner[0][1]
 					winner.clear
-					winner << [User.find(player.user_id).name, player.score]
+					winner << [User.find(player.user_id).slug, player.score]
 				elsif player.score == winner[0][1]
-					winner << [User.find(player.user_id).name, player.score]
+					winner << [User.find(player.user_id).slug, player.score]
 				end
 			end
 			puts "exit players loop"

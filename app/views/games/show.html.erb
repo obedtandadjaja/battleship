@@ -39,21 +39,27 @@
 	  margin: 0px; }
 
 	table.board {
-	  display: flex;
-	  align-content: center;
-	  justify-content: center;
-	  border: none; }
-	  table.board, table.board th, table.board td {
-	    border-spacing: 0; }
+	  	/*align-content: center;*/
+	  	justify-content: center;
+	  	border: none;
+	}
+
+	table.board, table.board th, table.board td {
+	    border-spacing: 0;
+	}
 	  /*table.board tr:not(:first-child) th:not(:first-child):hover, table.board tr:not(:first-child) td:not(:first-child):hover {
 	    border: 2px solid #991111; }*/
-	  table.board th, table.board td {
+
+	table.board th, table.board td {
 	    background: #113366;
-	    border: 2px solid #6699DD;
+	    border: 2px inset #6699DD;
 	    width: 2vw;
 	    height: 2vw;
+	    border-collapse: collapse;
+	    border-spacing: 0;
 	    color: #efefef;
-	    font-weight: 300; }
+	    font-weight: 300;
+	}
 
 	.center-text {
 	  text-align: center; }
@@ -61,14 +67,27 @@
 	.cell.highlight {
 	  background: red; }
 
+	table.board th {
+		background-color: dark-blue;
+		color: white;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	table.board td.cell-index {
+		background-color: dark-blue;
+		color: white;
+		font-weight: bold;
+		text-align: center;
+	}
+
 	table.board tr td {
 		z-index: 1;
 		box-sizing: border-box;
 	}
 
 	table.board tr td:hover {
-		border: 2px solid #991111;
-		z-index: 2;
+	    border: 2px solid red;
 	}
 
 	.ship {
@@ -88,9 +107,9 @@
 
 <div class="col l12 s12 m12" style="margin: 20px 0 20px 0">
 	<div class="container">
-		<h5 class="blue-grey score">Score: 0</h5>
+		<h5 class="blue-grey-text center score">Your score: 0</h5>
 		<!-- Reload Bar -->
-		<div id="progress-container">
+		<div id="progress-container" style="margin-bottom: 25px">
     		<div id="progress-bar">
     			<div id="label">Fire</div>
     		</div>

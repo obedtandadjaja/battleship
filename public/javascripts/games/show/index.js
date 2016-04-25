@@ -14,10 +14,10 @@ $(document).ready(function() {
 
 	for($i = 1; $i < 11; $i++) {
 		var string = '<tr class="'+$i+'">';
-		string += "<td><b>"+$i+"</b></td>";
+		string += "<td class='cell-index'>"+$i+"</td>";
 		for($x = 1; $x < 11; $x++) {
-			var row = String.fromCharCode(64+$x)
-			string += '<td class="cell" data-location-x="'+row+'" data-location-y="'+$i+'" id='+row+$i+'>cell</td>';
+			var col = String.fromCharCode(64+$x)
+			string += '<td class="cell" data-location-x="'+$i+'" data-location-y="'+col+'" id='+col+$i+'>cell</td>';
 		}
 		string += "</tr>";
 		$('tbody').append(string);
@@ -153,92 +153,93 @@ $(document).ready(function() {
 
 // Silas
 
-$(document).ready(function() {
-    var boxes = $('.cell');
+// $(document).ready(function() {
+//     var boxes = $('.cell');
     
-   // Set up the animated gradient background
-    var masterTimeline = new TimelineMax({ paused: false, repeat: -1});
-    var timelineCnt = 0;
-    boxes.each(function(index) {
-        timelineCnt = timelineCnt + 0.001;
-        masterTimeline.add(
-            TweenLite.fromTo(this, 1, {'backgroundColor': '#224499'}, {'backgroundColor': '#113366'})
-        , timelineCnt);
-        masterTimeline.add(
-            TweenLite.fromTo(this, 1, {'backgroundColor': '#113366'}, {'backgroundColor': '#224499'})
-        , timelineCnt+2);              
-    });   
+//    	// Set up the animated gradient background
+//     var masterTimeline = new TimelineMax({ paused: false, repeat: -1});
+//     var timelineCnt = 0;
+//     boxes.each(function(index) {
+//         timelineCnt = timelineCnt + 0.001;
+//         masterTimeline.add(
+//             TweenLite.fromTo(this, 1, {'backgroundColor': '#224499'}, {'backgroundColor': '#113366'})
+//         , timelineCnt);
+//         masterTimeline.add(
+//             TweenLite.fromTo(this, 1, {'backgroundColor': '#113366'}, {'backgroundColor': '#224499'})
+//         , timelineCnt+2);
+//     });
      
-    var maxX = $('table.board').data('maxX');
-    var maxY = $('table.board').data('maxY');
+//     var maxX = $('table.board').data('maxX');
+//     var maxY = $('table.board').data('maxY');
 
-    // When hovering, hange the closest border to red of surrounding boxes.
-    // boxes.hover(function hovering() {
-    //     var $this = $(this);
-    //     var box_x = $this.data('location-x');
-    //     var box_y = $this.data('location-y');
+//     // When hovering, hange the closest border to red of surrounding boxes.
+//     boxes.hover(function hovering() {
+//         var $this = $(this);
+//         var box_x = $this.data('location-x');
+//         var box_y = $this.data('location-y');
         
-    //     if (box_y != null) {
-    //         if (box_y == "a") {
-    //             $('tr').eq(0).find('th').eq(box_x).css({'border-bottom':'2px solid #991111'});
-    //         } else {
-    //             $('.cell[data-location-x="'+box_x+'"][data-location-y="'+prevChar(box_y)+'"]').css({'border-bottom':'2px solid #991111'});
-    //         }
-    //         if (box_x == 1) {
-    //             $('tr').eq(charToIndex(box_y)+1).find('td').eq(box_x-1).css({'border-right':'2px solid #991111'});
-    //         } else {
-    //             $('.cell[data-location-x="'+(box_x-1)+'"][data-location-y="'+box_y+'"]').css({'border-right':'2px solid #991111'});
-    //         }
+//         if (box_y != null) {
+//             if (box_y == "A") {
+//                 $('tr').eq(0).find('th').eq(box_x).css({'border-bottom':'2px solid #991111'});
+//             } else {
+//                 $('.cell[data-location-x="'+box_x+'"][data-location-y="'+prevChar(box_y)+'"]').css({'border-bottom':'2px solid #991111'});
+//             }
+//             if (box_x == 1) {
+//                 $('tr').eq(charToIndex(box_y)+1).find('td').eq(box_x-1).css({'border-right':'2px solid #991111'});
+//             } else {
+//                 $('.cell[data-location-x="'+(box_x-1)+'"][data-location-y="'+box_y+'"]').css({'border-right':'2px solid #991111'});
+//             }
             
-    //         if (box_x != maxX) {
-    //             $('.cell[data-location-x="'+(box_x+1)+'"][data-location-y="'+box_y+'"]').css({'border-left':'2px solid #991111'});
-    //         }
+//             if (box_x != maxX) {
+//                 $('.cell[data-location-x="'+(box_x+1)+'"][data-location-y="'+box_y+'"]').css({'border-left':'2px solid #991111'});
+//             }
             
-    //         if (box_y != maxY) {
-    //             $('.cell[data-location-x="'+box_x+'"][data-location-y="'+nextChar(box_y)+'"]').css({'border-top':'2px solid #991111'});
-    //         }
-    //     }
-    // }, function undoHovering() {
-    //     var $this = $(this);
-    //     var box_x = $this.data('location-x');
-    //     var box_y = $this.data('location-y');
+//             if (box_y != maxY) {
+//                 $('.cell[data-location-x="'+box_x+'"][data-location-y="'+nextChar(box_y)+'"]').css({'border-top':'2px solid #991111'});
+//             }
+//         }
+//     }, function undoHovering() {
+//         var $this = $(this);
+//         var box_x = $this.data('location-x');
+//         var box_y = $this.data('location-y');
         
-    //     if (box_y != null) {
-    //         if (box_y == "a") {
-    //             $('tr').eq(0).find('th').eq(box_x).css({'border-bottom':''});
-    //         } else {
-    //             $('.cell[data-location-x="'+box_x+'"][data-location-y="'+prevChar(box_y)+'"]').css({'border-bottom':''});
-    //         }
+//         if (box_y != null) {
+//             if (box_y == "A") {
+//                 $('tr').eq(0).find('th').eq(box_x).css({'border-bottom':''});
+//             } else {
+//                 $('.cell[data-location-x="'+box_x+'"][data-location-y="'+prevChar(box_y)+'"]').css({'border-bottom':''});
+//             }
 
-    //         if (box_x == 1) {
-    //             $('tr').eq(charToIndex(box_y)+1).find('td').eq(box_x-1).css({'border-right':''});
-    //         } else {
-    //             $('.cell[data-location-x="'+(box_x-1)+'"][data-location-y="'+box_y+'"]').css({'border-right':''});
-    //         }
+//             if (box_x == 1) {
+//                 $('tr').eq(charToIndex(box_y)+1).find('td').eq(box_x-1).css({'border-right':''});
+//             } else {
+//                 $('.cell[data-location-x="'+(box_x-1)+'"][data-location-y="'+box_y+'"]').css({'border-right':''});
+//             }
 
-    //         if (box_x != maxX) {
-    //             $('.cell[data-location-x="'+(box_x+1)+'"][data-location-y="'+box_y+'"]').css({'border-left':''});
-    //         }
+//             if (box_x != maxX) {
+//                 $('.cell[data-location-x="'+(box_x+1)+'"][data-location-y="'+box_y+'"]').css({'border-left':''});
+//             }
             
-    //         if (box_y != maxY) {
-    //             $('.cell[data-location-x="'+box_x+'"][data-location-y="'+nextChar(box_y)+'"]').css({'border-top':''});
-    //         }
-    //     }
-    // });
+//             if (box_y != maxY) {
+//                 $('.cell[data-location-x="'+box_x+'"][data-location-y="'+nextChar(box_y)+'"]').css({'border-top':''});
+//             }
+//         }
+//     });
     
-    function nextChar(c) {
-    	alert(c);
-        return String.fromCharCode(c.charCodeAt(0) + 1);
-    }
-    function prevChar(c) {
-    	alert(c);
-        return String.fromCharCode(c.charCodeAt(0) - 1);
-    }
-    function charToIndex(c) {
-        return c.charCodeAt(0) - 97;
-    }
+//     function nextChar(c) {
+//     	console.log(c);
+//         return String.fromCharCode(c.charCodeAt(0) + 1);
+//     }
+//     function prevChar(c) {
+//     	console.log(c);
+//         return String.fromCharCode(c.charCodeAt(0) - 1);
+//     }
+//     function charToIndex(c) {
+//     	console.log(c);
+//         return c.charCodeAt(0) - 97;
+//     }
 
-});
+// });
 
 
 /*!

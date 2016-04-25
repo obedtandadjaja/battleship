@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 # Faker
 gem 'faker'
+# Selectivizr
+gem 'selectivizr-rails'
 # Friendly-ID
 gem 'friendly_id', '~> 5.1.0'
 # WebSockets

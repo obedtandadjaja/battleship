@@ -124,7 +124,7 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		if @game.save
 			GamePlayer.create(user_id: @user.id, game_id: @game.id, score: 0, is_master: true).save
 			redirect_to "/games/in_game_lobby/#{@game.slug}"
-			WebsocketRails["setupgameindex"].trigger(:update)
+			WebsocketRails["gameindex"].trigger(:update)
 		else
 			flash[:alert] = @game.errors.full_messages
 			redirect_to '/'
@@ -133,6 +133,7 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 
 	def destroy
 		Game.friendly.find(params[:id]).destroy
+		WebsocketRails["gameindex"].trigger(:update)
       	redirect_to '/games'
 	end
 

@@ -52,46 +52,43 @@ class PlayController < WebsocketRails::BaseController
 				else
 					user.ship.each do |ship|
 						# puts ship.ship_cell
-						# if ship.is_sunk == false
-							# ship sunk flag
-							is_sunk = true
-							ship.ship_cell.each do |ship_cell|
-								# puts "ship: #{ship_cell.column}#{ship_cell.row}"
-								puts "guess: #{col}#{row}"
-								puts "ship: #{ship_cell.column}#{ship_cell.row}"
-								# if hit
-								puts "Entered ship loop"
-								if (ship_cell.row == row) && (ship_cell.column == col)
-									puts "Hit ship cell"
-									# update to is_hit
-									ship_cell.update_attributes(is_hit: true)
-									# update score
-									@player.update_attributes(score: @player.score+1)
+						is_sunk = 0
 
-									# create guess
-									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
+						ship.ship_cell.each do |ship_cell|
+							# puts "ship: #{ship_cell.column}#{ship_cell.row}"
+							puts "guess: #{col}#{row}"
+							puts "ship: #{ship_cell.column}#{ship_cell.row}"
+							# if hit
+							puts "Entered ship loop"
+							if (ship_cell.row == row) && (ship_cell.column == col)
+								puts "Hit ship cell"
+								# update to is_hit
+								ship_cell.update_attributes(is_hit: true)
+								# update score
+								@player.update_attributes(score: @player.score+1)
 
-									# broadcast
-									WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
-									break
-								else
-									# create guess
-									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+								# create guess
+								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
-									# if one of the ship cell is not hit then ship not sunk
-									if ship_cell.is_hit == false
-										is_sunk = false
-									end
+								# broadcast
+								WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
+								break
+							else
+								# create guess
+								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+
+								# if one of the ship cell is not hit then ship not sunk
+								if ship_cell.is_hit == false
+									puts "Not sunk"
+									is_sunk += 1
 								end
 							end
+						end
 
-							# check if ship has sunk
-							if is_sunk == true
-								ship.update_attributes(is_sunk: true)
-							end
-						# else
-						# 	next
-						# end
+						# check if ship has sunk
+						if is_sunk == 0
+							ship.update_attributes(is_sunk: true)
+						end
 					end
 				end
 			end
@@ -179,7 +176,7 @@ class PlayController < WebsocketRails::BaseController
 	  				second_col = first_col+1
 	  			end
   			else
-  				if(first_col+1 < 64)
+  				if(first_col+1 < 76)
 	  				second_col = first_col+1
 	  			else
 	  				second_col = first_col-1

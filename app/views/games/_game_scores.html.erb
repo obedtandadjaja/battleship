@@ -1,6 +1,14 @@
 <h5>Leaderboard:</h5>
-<ul class="leaderboard">
-<% array.each do |e| %>
-	<li><%= e[0] %>: <%= e[1] %></li>
+<table class="leaderboard">
+<% sorted = array.sort {|a,b| b[1] <=> a[1]} %>
+<% place = 1 %>
+<thead>
+	<th>Rank:</th>
+	<th>Player:</th>
+	<th>Score:</th>
+</thead>
+<% sorted.each do |e| %>
+	<tr><td><%= place %></td><td><%= e[0] %>:</td><td><%= e[1] %></td></tr>
+	<% place += 1 %>
 <% end %>
-</ul>
+</table>

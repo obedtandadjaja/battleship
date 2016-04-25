@@ -110,17 +110,12 @@ $(document).ready(function() {
 		// }
 	});
 
-<<<<<<< HEAD
-	sub_channel.bind('allshipssunk', function(response) {
-		if(response[0] == current_player) {
-			$('.modal-score').text("Your final score: " + response[1]);
-=======
+
 	sub_channel.bind('noshipleft', function(response) {
 		if(response[0] == current_player) {
 			$('.modal').closeModal();
 			$('.modal-title').text("All your ships have sunk.");
 			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
->>>>>>> 6fbfce09a997038c030396da421a37cf8b0befbd
 			$('.modal-trigger').click();
 			click_disabled = true;
 		}

@@ -80,9 +80,9 @@ class PlayController < WebsocketRails::BaseController
 									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
 
 									# if one of the ship cell is not hit then ship not sunk
-									# if ship_cell.is_hit == false
+									if ship_cell.is_hit == false
 										is_sunk += 1
-									# end
+									end
 								end
 							end
 

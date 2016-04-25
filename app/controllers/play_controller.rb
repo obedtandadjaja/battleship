@@ -41,10 +41,6 @@ class PlayController < WebsocketRails::BaseController
 		col = ActiveSupport::JSON.decode(message)["col"]
 		row = ActiveSupport::JSON.decode(message)["row"]
 
-		# is_hit = [true, false].sample
-		# if is_hit
-		# 	WebsocketRails[channel].trigger(:hit, [col, row])
-		# end
 		@game = Game.find_by_channel(channel)
 		@user = current_or_guest_user
 		@players = GamePlayer.where(game_id: @game.id)
@@ -71,13 +67,15 @@ class PlayController < WebsocketRails::BaseController
 									# update score
 									@player.update_attributes(score: @player.score+1)
 									# create guess
-									Guess.create(game_player_id: @player.id, row: row, col: col, is_hit: true)
+									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 									# broadcast
 									WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
 									break
 								else
+									puts "miss"
 									# create guess
-									Guess.create(game_player_id: @player.id, row: row, col: col, is_hit: false)
+									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+									puts "after guess"
 									# if one of the ship cell is not hit then ship not sunk
 									if ship_cell.is_hit == false
 										is_sunk = false

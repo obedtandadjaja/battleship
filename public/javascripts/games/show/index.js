@@ -138,6 +138,7 @@ $(document).ready(function() {
 						$("#"+array[0]+array[1]).text("hit");
 					} else {
 						$("#"+array[0]+array[1]).removeClass();
+						$("#"+array[0]+array[1]).addClass("miss");
 						$("#"+array[0]+array[1]).text("miss");
 					}
 				});

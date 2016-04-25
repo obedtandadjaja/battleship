@@ -96,9 +96,7 @@ class PlayController < WebsocketRails::BaseController
 
 		# check all ships have sunk
 		@players.each do |player|
-			puts "entered player loop"
 			if player.ships_left == true
-				puts "entered ship left if"
 				@left = Ship.where(game_player_id: player.id, is_sunk: false)
 				if @left.blank?
 					puts "Entered gameover!"

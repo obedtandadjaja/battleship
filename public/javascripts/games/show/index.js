@@ -5,11 +5,13 @@ $(window).on('resize', function(){
 
 $(document).ready(function() {
 	// setUpSocketConnection();
+	$('.modal-trigger').leanModal();
 
 	var root_url = $("#root-url").val();
 	var channel = $("#game-channel").val();
 	var game_id = $("#game-id").val();
 	var current_player = $("#current-player").val();
+	var still_in_game = $("#still-in-game").val();
 
 	// connect to server like normal
 	var dispatcher = new WebSocketRails(root_url.replace("http://", "").replace("https://", "") + 'websocket'); 
@@ -32,7 +34,7 @@ $(document).ready(function() {
   	$("td").height(size/22);
 
 	$('td').click(function() {
-		if (!click_disabled)
+		if (!click_disabled && still_in_game == "true")
 		{
 			var col = $(this).closest('table').find('th').eq(this.cellIndex).attr('class');
 			console.log(col);
@@ -90,8 +92,10 @@ $(document).ready(function() {
 	});
 
 	sub_channel.bind('gameover', function(response) {
-		$('.modal-score').text(response);
-		$('#game_over').openModal();
+		if(response[0] == current_player) {
+			$('.modal-score').text(response);
+			$('.modal-trigger').click();
+		}
 	});
 
 	function fire(col, row, game_id, channel)

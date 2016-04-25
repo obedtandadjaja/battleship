@@ -45,49 +45,49 @@ class PlayController < WebsocketRails::BaseController
 		@user = current_or_guest_user
 		@players = GamePlayer.where(game_id: @game.id)
 		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
-		if @player.ships_left
-			@players.each do |user|
-				if user.user_id == @user.id
-					next
-				else
-					user.ship.each do |ship|
-						# puts ship.ship_cell
-						is_sunk = 0
+		if @player.ships_left == true
+			if @player.ships_left
+				@players.each do |user|
+					if user.user_id == @user.id
+						next
+					else
+						user.ship.each do |ship|
+							# puts ship.ship_cell
+							is_sunk = 0
 
-						ship.ship_cell.each do |ship_cell|
-							# puts "ship: #{ship_cell.column}#{ship_cell.row}"
-							puts "guess: #{col}#{row}"
-							puts "ship: #{ship_cell.column}#{ship_cell.row}"
-							# if hit
-							puts "Entered ship loop"
-							if (ship_cell.row == row) && (ship_cell.column == col)
-								puts "Hit ship cell"
-								# update to is_hit
-								ship_cell.update_attributes(is_hit: true)
-								# update score
-								@player.update_attributes(score: @player.score+1)
+							ship.ship_cell.each do |ship_cell|
+								# puts "ship: #{ship_cell.column}#{ship_cell.row}"
+								puts "guess: #{col}#{row}"
+								puts "ship: #{ship_cell.column}#{ship_cell.row}"
+								# if hit
+								if (ship_cell.row == row) && (ship_cell.column == col)
+									puts "Hit ship cell"
+									# update to is_hit
+									ship_cell.update_attributes(is_hit: true)
+									# update score
+									@player.update_attributes(score: @player.score+1)
 
-								# create guess
-								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
+									# create guess
+									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
-								# broadcast
-								WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score]])
-								break
-							else
-								# create guess
-								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+									# broadcast
+									WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score]])
+									break
+								else
+									# create guess
+									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
 
-								# if one of the ship cell is not hit then ship not sunk
-								if ship_cell.is_hit == false
-									puts "Not sunk"
-									is_sunk += 1
+									# if one of the ship cell is not hit then ship not sunk
+									if ship_cell.is_hit == false
+										is_sunk += 1
+									end
 								end
 							end
-						end
 
-						# check if ship has sunk
-						if is_sunk == 0
-							ship.update_attributes(is_sunk: true)
+							# check if ship has sunk
+							if is_sunk == 0
+								ship.update_attributes(is_sunk: true)
+							end
 						end
 					end
 				end
@@ -99,14 +99,8 @@ class PlayController < WebsocketRails::BaseController
 			puts "entered player loop"
 			if player.ships_left == true
 				puts "entered ship left if"
-				gameover = 0
-				player.ship.each do |ship|
-					puts "entered ship loop"
-					if ship.is_sunk == false
-						gameover += 1
-					end
-				end
-				if gameover == 0
+				@left = Ship.where(game_player_id: player.id, is_sunk: false)
+				if @left.blank?
 					puts "Entered gameover!"
 					# update the ship left to false
 					player.update_attributes(ships_left: false)

@@ -75,6 +75,7 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 	def show
 		@user = current_or_guest_user
 		@game = Game.friendly.find(params[:id])
+		@player = GamePlayer.where(user_id: @user, game_id: @game.id).first
 	end
 
 	def get_chaos_games

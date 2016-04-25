@@ -114,6 +114,7 @@
 <input type="hidden" name="game-channel" id="game-channel" value="<%= @game.channel %>">
 <input type="hidden" name="game-id" id="game-id" value="<%= @game.id %>">
 <input type="hidden" name="current-player" id="current-player" value="<%= @user.slug %>">
+<input type="hidden" name="still-in-game" id="still-in-game" value="<%= @player.ships_left %>">
 <!-- -->
 
 <div class="col l12 s12 m12" style="margin: 20px 0 20px 0">
@@ -145,8 +146,9 @@
 			</tbody>
 		</table>
 
+		<a class="modal-trigger" href="#modal1"></a>
 		<!-- Modal -->
-		<div id="modal game_over" class="modal">
+		<div id="modal1" class="modal">
 		    <div class="modal-content">
 		      	<div class="row">
 		      		<h5>Game over</h5>

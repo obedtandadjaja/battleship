@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	for($i = 1; $i < 11; $i++) {
 		var string = '<tr class="'+$i+'">';
-		string += "<td><b>"+$i+"</b></td>";
+		string += "<td class='cell-index'>"+$i+"</td>";
 		for($x = 1; $x < 11; $x++) {
 			var row = String.fromCharCode(64+$x)
 			string += '<td class="cell" data-location-x="'+row+'" data-location-y="'+$i+'" id='+row+$i+'>cell</td>';

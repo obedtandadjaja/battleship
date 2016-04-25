@@ -75,8 +75,13 @@ $(document).ready(function() {
 		var r = response[1];
 		var score = response[2];
 		cell = $("#" + c + r);
-		cell.removeClass();
-		cell.addClass("hit");
+		if(cell.hasClass("ship")) {
+			cell.removeClass();
+			cell.addClass("own_hit");
+		} else {
+			cell.removeClass();
+			cell.addClass("hit");
+		}
 		// cell.html("hit");
 		$(".score").text("Score: "+score);
 	});
@@ -140,7 +145,7 @@ $(document).ready(function() {
 			data: {},
 			success: function(response) {
 				$.each(response, function(index, array) {
-					if(array[2]) {
+					if(array[2] == true) {
 						$("#"+array[0]+array[1]).removeClass();
 						$("#"+array[0]+array[1]).addClass("hit");
 						// $("#"+array[0]+array[1]).text("hit");

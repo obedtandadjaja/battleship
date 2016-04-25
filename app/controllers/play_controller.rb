@@ -81,9 +81,9 @@ class PlayController < WebsocketRails::BaseController
 									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
 
 									# if one of the ship cell is not hit then ship not sunk
-									if ship_cell.is_hit == false
+									# if ship_cell.is_hit == false
 										is_sunk += 1
-									end
+									# end
 								end
 							end
 
@@ -116,21 +116,25 @@ class PlayController < WebsocketRails::BaseController
 		end
 
 		# check gameover
-		players_left = GamePlayer.count(game_id: @game.id, ships_left: false)
-		if players_left < 2
+		players_left = GamePlayer.where(game_id: @game.id, ships_left: true)
+		if players_left.length < 2
+			puts "it goes in"
 			scores = Array.new
 			# gameover
 			winner = [["sample_user", 0]]
+			puts "enter players loop"
 			@players.each do |player|
 				scores << [User.find(player.user_id), player.score]
 				if player.score > winner[0][1]
-					winner.clear!
+					winner.clear
 					winner << [User.find(player.user_id).name, player.score]
 				elsif player.score == winner[0][1]
 					winner << [User.find(player.user_id).name, player.score]
 				end
 			end
+			puts "exit players loop"
 			WebsocketRails[channel].trigger(:gameover, {winner: winner, scores: scores})
+			puts "websocket sent"
 		end
 	end
 

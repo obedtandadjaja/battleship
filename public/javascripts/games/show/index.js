@@ -115,7 +115,7 @@ $(document).ready(function() {
 		if(response[0] == current_player) {
 			// $('.modal').closeModal();
 			$('.modal-title').text("All your ships have sunk.");
-			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
+			$('.modal-body').html("You lost your firing privilege. <br>Your score: " + response[1]);
 			$('.modal-trigger').click();
 			click_disabled = true;
 		}
@@ -136,7 +136,7 @@ $(document).ready(function() {
 		$.each(response.scores, function(index, array) {
 			string += "<br>"+array[0]+": "+array[1];
 		});
-		$('.modal-body').text(string);
+		$('.modal-body').html(string);
 		$('.modal-trigger').click();
 	});
 

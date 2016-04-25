@@ -47,7 +47,9 @@ class PlayController < WebsocketRails::BaseController
 		@player = GamePlayer.where(game_id: @game.id, user_id: @user.id).first
 		if @player.ships_left == true
 			if @player.ships_left
+				leaderboard = Hash.new
 				@players.each do |user|
+					leaderboard[user.user.name] = [user.score, user.user.slug]
 					if user.user_id == @user.id
 						next
 					else
@@ -66,12 +68,13 @@ class PlayController < WebsocketRails::BaseController
 									ship_cell.update_attributes(is_hit: true)
 									# update score
 									@player.update_attributes(score: @player.score+1)
+									leaderboard[@player.user.name] = [@player.score, @player.user.slug]
 
 									# create guess
 									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
 									# broadcast
-									WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score]])
+									WebsocketRails[channel].trigger(:hit, [col, row, [User.find(@player.user_id).slug, @player.score], leaderboard])
 									break
 								else
 									# create guess
@@ -109,7 +112,7 @@ class PlayController < WebsocketRails::BaseController
 					player_user = User.find(player.user_id)
 					player_user.update_attributes(total_score: (player_user.total_score+player.score))
 					puts "updated user total score"
-					WebsocketRails[channel].trigger(:gameover, [player_user.slug, player.score])
+					WebsocketRails[channel].trigger(:allshipssunk, [player_user.slug, player.score])
 				end
 			end
 		end

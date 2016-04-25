@@ -97,7 +97,7 @@ class PlayController < WebsocketRails::BaseController
 			end
 		end
 
-		# check gameover
+		# check all ships have sunk
 		@players.each do |player|
 			puts "entered player loop"
 			if player.ships_left == true
@@ -112,9 +112,27 @@ class PlayController < WebsocketRails::BaseController
 					player_user = User.find(player.user_id)
 					player_user.update_attributes(total_score: (player_user.total_score+player.score))
 					puts "updated user total score"
-					WebsocketRails[channel].trigger(:allshipssunk, [player_user.slug, player.score])
+					WebsocketRails[channel].trigger(:noshipleft, [player_user.slug, player.score])
 				end
 			end
+		end
+
+		# check gameover
+		players_left = GamePlayer.count(game_id: @game.id, ships_left: false)
+		if players_left < 2
+			scores = Array.new
+			# gameover
+			winner = [["sample_user", 0]]
+			@players.each do |player|
+				scores << [User.find(player.user_id), player.score]
+				if player.score > winner[0][1]
+					winner.clear!
+					winner << [User.find(player.user_id).name, player.score]
+				elsif player.score == winner[0][1]
+					winner << [User.find(player.user_id).name, player.score]
+				end
+			end
+			WebsocketRails[channel].trigger(:gameover, {winner: winner, scores: scores})
 		end
 	end
 

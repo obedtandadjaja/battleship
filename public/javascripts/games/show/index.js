@@ -110,12 +110,39 @@ $(document).ready(function() {
 		// }
 	});
 
+<<<<<<< HEAD
 	sub_channel.bind('allshipssunk', function(response) {
 		if(response[0] == current_player) {
 			$('.modal-score').text("Your final score: " + response[1]);
+=======
+	sub_channel.bind('noshipleft', function(response) {
+		if(response[0] == current_player) {
+			$('.modal').closeModal();
+			$('.modal-title').text("All your ships have sunk.");
+			$('.modal-body').text("You lost your firing privilege. <br>Your score: " + response[1]);
+>>>>>>> 6fbfce09a997038c030396da421a37cf8b0befbd
 			$('.modal-trigger').click();
 			click_disabled = true;
 		}
+	});
+
+	sub_channel.bind('gameover', function(response) {
+		var flag = false;
+		$.each(response.winner, function(index, array) {
+			if(array[0] == current_player) {
+				$('.modal-title').text("Congratulations! You won!");
+				flag = true;
+			}
+		});
+		if(flag == false) {
+			$('.modal-title').text("Game over! You lost!");
+		}
+		var string = "<b>Scores: </b>";
+		$.each(response.scores, function(index, array) {
+			string += "<br>"+array[0]+": "+array[1];
+		});
+		$('.modal-body').text(string);
+		$('.modal-trigger').click();
 	});
 
 	function fire(col, row, game_id, channel)

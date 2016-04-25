@@ -93,7 +93,7 @@ $(document).ready(function() {
 
 	sub_channel.bind('gameover', function(response) {
 		if(response[0] == current_player) {
-			$('.modal-score').text(response);
+			$('.modal-score').text("Your score: "response[1]);
 			$('.modal-trigger').click();
 		}
 	});

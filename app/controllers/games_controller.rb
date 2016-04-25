@@ -72,6 +72,22 @@ skip_before_filter :verify_authenticity_token, :only => [:guess]
 		redirect_to '/'
   	end
 
+  	def get_scores
+  		@user = current_or_guest_user
+  		@game = Game.friendly.find(params[:id])
+  		@players = GamePlayer.where(game_id: @game.id)
+  		user_and_scores = Array.new
+  		@players.each do |player|
+  			if player.user_id == @user.id
+  				user_and_scores << ["You", player.score]
+  			else
+  				user_and_scores << [User.find(player.user_id).name, player.score]
+  			end
+  		end
+  		user_and_scores.sort_by { |x| x[2] }
+  		render partial: "games/game_scores", :locals => {:array => user_and_scores}
+  	end
+
 	def show
 		@user = current_or_guest_user
 		@game = Game.friendly.find(params[:id])

@@ -6,6 +6,7 @@ $(window).on('resize', function(){
 $(document).ready(function() {
 	// setUpSocketConnection();
 	$('.modal-trigger').leanModal();
+	$('.score-container').load("/games/get_scores/"+game_id);
 
 	var root_url = $("#root-url").val();
 	var channel = $("#game-channel").val();
@@ -86,28 +87,29 @@ $(document).ready(function() {
 			cell.addClass("hit");
 		}
 		scores = response[3];
-		leaderboard = [];
-		for(score in scores){
-		 	leaderboard.push([score,scores[score]])
-		}
-		leaderboard.sort(function(a,b){return a[1][0] - b[1][0]});
-		leaderboard.reverse();
-		$(".score").empty();
-		$(".score").append("<h2>Leaderboard:</h2>");
-		$(".score").append('<ul class="leaderboard">');
-		$.each(leaderboard, function(index, value) {
-			if (current_player == value[1][1])
-			{
-				value[0] = "You"
-			}
-			$(".leaderboard").append("<li>" + value[0] + ": " + value[1][0] + "</li>");
-		});
-
-
+		// leaderboard = [];
+		// for(score in scores){
+		//  	leaderboard.push([score,scores[score]])
+		// }
+		// leaderboard.sort(function(a,b){return a[1][0] - b[1][0]});
+		// leaderboard.reverse();
+		// $(".score").empty();
+		// $(".score").append("<h2>Leaderboard:</h2>");
+		// $(".score").append('<ul class="leaderboard">');
+		// $.each(leaderboard, function(index, value) {
+		// 	if (current_player == value[1][1])
+		// 	{
+		// 		value[0] = "You"
+		// 	}
+		// 	$(".leaderboard").append("<li>" + value[0] + ": " + value[1][0] + "</li>");
+		// });
+		
 		// cell.html("hit");
 		// if(intended_user == current_player) {
 		// 	$(".score").text("Score: "+score);
 		// }
+		
+		$('.score-container').load("/games/get_scores/"+game_id);
 	});
 
 

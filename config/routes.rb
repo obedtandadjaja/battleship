@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   put '/games/check/:id' => 'games#check'
   put '/games/get_ships/:id/:user_slug' => 'games#get_ships'
   put '/games/get_guesses/:id/:user_slug' => 'games#get_guesses'
+  get '/games/get_scores/:id' => 'games#get_scores'
 
   resources :games
   resources :users

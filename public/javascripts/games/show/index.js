@@ -1,6 +1,6 @@
 $(window).on('resize', function(){
-  var size =$("table").width();
-  $("td").height(size/22);
+  var size =$("table.board").width();
+  $("table.board tr td").height(size/22);
 });
 
 $(document).ready(function() {
@@ -34,8 +34,8 @@ $(document).ready(function() {
 		$('tbody').append(string);
 	}
 
-	var size =$("table").width();
-  	$("td").height(size/22);
+	var size =$("table.board").width();
+  	$("table.board tr td").height(size/22);
 
 	$('td').click(function() {
 		if (!click_disabled && still_in_game == "true")

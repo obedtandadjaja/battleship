@@ -76,7 +76,11 @@ $(document).ready(function() {
 		var score = response[2];
 		cell = $("#" + c + r);
 		cell.removeClass();
-		cell.addClass("hit");
+		if(cell.hasClass("ship")) {
+			cell.addClass("own_hit");
+		} else {
+			cell.addClass("hit");
+		}
 		// cell.html("hit");
 		$(".score").text("Score: "+score);
 	});

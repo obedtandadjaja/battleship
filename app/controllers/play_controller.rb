@@ -52,64 +52,64 @@ class PlayController < WebsocketRails::BaseController
 				else
 					user.ship.each do |ship|
 						# puts ship.ship_cell
-						# if ship.is_sunk == false
-							# ship sunk flag
-							is_sunk = true
-							ship.ship_cell.each do |ship_cell|
-								# puts "ship: #{ship_cell.column}#{ship_cell.row}"
-								puts "guess: #{col}#{row}"
-								puts "ship: #{ship_cell.column}#{ship_cell.row}"
-								# if hit
-								puts "Entered ship loop"
-								if (ship_cell.row == row) && (ship_cell.column == col)
-									puts "Hit ship cell"
-									# update to is_hit
-									ship_cell.update_attributes(is_hit: true)
-									# update score
-									@player.update_attributes(score: @player.score+1)
+						is_sunk = 0
 
-									# create guess
-									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
+						ship.ship_cell.each do |ship_cell|
+							# puts "ship: #{ship_cell.column}#{ship_cell.row}"
+							puts "guess: #{col}#{row}"
+							puts "ship: #{ship_cell.column}#{ship_cell.row}"
+							# if hit
+							puts "Entered ship loop"
+							if (ship_cell.row == row) && (ship_cell.column == col)
+								puts "Hit ship cell"
+								# update to is_hit
+								ship_cell.update_attributes(is_hit: true)
+								# update score
+								@player.update_attributes(score: @player.score+1)
 
-									# broadcast
-									WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
-									break
-								else
-									# create guess
-									Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+								# create guess
+								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: true)
 
-									# if one of the ship cell is not hit then ship not sunk
-									if ship_cell.is_hit == false
-										is_sunk = false
-									end
+								# broadcast
+								WebsocketRails[channel].trigger(:hit, [col, row, @player.score])
+								break
+							else
+								# create guess
+								Guess.create(game_player_id: @player.id, row: row, column: col, is_hit: false)
+
+								# if one of the ship cell is not hit then ship not sunk
+								if ship_cell.is_hit == false
+									puts "Not sunk"
+									is_sunk += 1
 								end
 							end
+						end
 
-							# check if ship has sunk
-							if is_sunk == true
-								ship.update_attributes(is_sunk: true)
-							end
-						# else
-						# 	next
-						# end
+						# check if ship has sunk
+						if is_sunk == 0
+							ship.update_attributes(is_sunk: true)
+						end
 					end
 				end
 			end
 		end
 
 		# check gameover
-		@game.user.each do |user|
-			gameover = true
-			user.ship.each do |ship|
+		@players.each do |player|
+			gameover = 0
+			player.ship.each do |ship|
 				if ship.is_sunk == false
-					gameover = false
+					gameover += 1
 				end
 			end
-			if gameover
-				player = GamePlayer.where(game_id: @game.id, user_id: user.id).first
-				player.update_attributes(ships_left: false)
-				user.update_attributes(total_score: user.total_score+player.score)
-				WebsocketRails[channel].trigger(:gameover, player.score)
+			if gameover == 0
+				# get current player
+				current_player = GamePlayer.where(game_id: @game.id, user_id: player.id).first
+				# update the ship left to false
+				current_player.update_attributes(ships_left: false)
+				# update user total score
+				User.find(current_player.user_id).update_attributes(total_score: user.total_score+player.score)
+				WebsocketRails[channel].trigger(:gameover, current_player.score)
 			end
 		end
 	end
@@ -141,7 +141,7 @@ class PlayController < WebsocketRails::BaseController
 
   	def random_ship
   		# randomize first column
-  		first_col = rand(65..75)
+  		first_col = rand(65..74)
   		first_row = rand(1..10)
 
   		# second column must be a neighbor of the first column
@@ -176,7 +176,7 @@ class PlayController < WebsocketRails::BaseController
 	  				second_col = first_col+1
 	  			end
   			else
-  				if(first_col+1 < 64)
+  				if(first_col+1 < 75)
 	  				second_col = first_col+1
 	  			else
 	  				second_col = first_col-1

@@ -1,0 +1,43 @@
+Battleship Assignment - Protocol Document
+By: Obed, Marc, Silas
+
+Game index page:
+     Client sets up web socket with server
+     Client subscribes to game index channel to be notified of any new games
+     Server publishes an update event to the game index channel when a new game is created
+     Upon update clients will call an AJAX get which will update the list of games available
+     Password protected games require users to input password which will call an AJAX post to validate the password
+
+Game lobby page:
+     Clients set up web socket with server
+     Clients subscribe to a unique channel specified in the channel column in the games table
+     Server publishes an update of all players in lobby when new players enter the lobby (with web sockets)
+     Server publishes an update of all players in lobby when a player leaves the lobby (with web sockets)
+     When the number of players in the lobby matches the number of players specified for the game, the play button is enabled
+     Any player can then start the game, which will send a web socket event of startgame
+     Server publishes startgame event to the channel which will redirect all clients to a unique game page
+
+Game page:
+     All clients set up web socket with server
+     Client sends guess to server
+          If hit:
+               Server updates all clients with hit info
+               Server updates all clients with the score leaderboard
+               Server updates score of the sending client
+               Server checks if the ship is sunk because of the hit
+               Server checks if the player has ships left (see on no ships left)
+          If miss:
+               Server updates sending client with miss info     
+     On no ships left:
+	  Server sends a message to the particular client and takes away firing privilege
+     On game complete:
+	  Server publishes a game over message to the channel which has information of the winner and the current leaderboard
+	  For the winner, the modal will show as “You win”, and for losers, the modal will show as “You lost”
+     On player disconnect from game (we have the web socket ready but not the alert yet):
+	  When one of the subscriber to the channel dropped his/her connection, the server is notified
+	  Send an alert to other players that the particular user disconnected
+
+Deployment:
+Works with all modern browsers
+Works great in Android
+Works great in iPhone

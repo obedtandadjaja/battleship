@@ -2,7 +2,13 @@
 
 COS375 Assignment - Battleship
 
-Deployed in: https://covenant-battleship.herokuapp.com/
+Contributors: Marc Bohler, Silas Tippens
+
+We made our own version of the Battleship game, using Ruby on Rails, such that the players will not take turns firing. Instead, players can fire at will once they reload their cannons.
+
+We also made a lobby system where users can create game rooms, room owner can kick players off the game room, users inside the game room can invite people in, game rooms can be password-protected, etc.
+
+Hosted in Heroku: https://covenant-battleship.herokuapp.com/
 
 To deploy changes please contact obed.tandadjaja@covenant.edu
 
